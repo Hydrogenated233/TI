@@ -1,0 +1,47 @@
+html {
+    background-color: black;
+    color: white;
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+  }
+div{
+    text-align: center;
+}
+*{
+    font-size: x-large;
+}
+.btn {
+    cursor: pointer;
+    font-size: 12px;
+    max-width: 250px;
+    padding: 7px 25px;
+    text-decoration: none;
+    border: 1px solid #777;
+    background: #333;
+    color: white;
+    display: inline-block;
+}
+.btn:hover {
+    cursor: pointer;
+    font-size: 12px;
+    max-width: 250px;
+    padding: 7px 25px;
+    text-decoration: none;
+    border: 1px solid #999;
+    background: #555;
+    color: white;
+    display: inline-block;
+}
+.buyed{
+    background-color: greenyellow;
+}
+button {
+    border: solid 2px #444;
+    background-color: #1b1b1b;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition-property: background-color, border, transform, box-shadow;
+    transition-duration: 0.15s;
+}
