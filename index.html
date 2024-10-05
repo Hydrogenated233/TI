@@ -6,13 +6,17 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
+    <!--上方文字-->
     <div>
-      <!--上方文字-->
-      <div>
-        <div><span id="news"></span></div>
-        <div><span class="rainbow" id="treesDisplay">你有0棵树</span></div>
-        <div><span id="treesPerSecDisplay">(+0/s)</span></div>
-      </div>
+      <div><span id="news"></span></div>
+      <div><span class="rainbow" id="treesDisplay">你有0棵树</span></div>
+      <div><span id="treesPerSecDisplay">(+0/s)</span></div>
+    </div>
+    <div class="line"></div>
+    <button class="btn" onclick="switchTo(1)">主页</button>
+    <button class="btn" onclick="switchTo(2)">设置</button>
+    <div class="line"></div>
+    <div id="page1">
       <!--按钮-->
       <div>
         <button onclick="sellTrees()" class="btn">
@@ -24,6 +28,7 @@
         </button>
       </div>
       <!--升级-->
+      <div class="line"></div>
       <div>
         <span>你有<span id="moneyDisplay"></span>$</span><br>
         <button id="upgrade1" class="btn" onclick="buy(1)">
@@ -31,11 +36,22 @@
           <span>*1.5</span><br>
           <span>100$</span>
         </button>
+        <button id="upgrade2" class="btn" onclick="buy(2)">
+          <span>员工1</span><br>
+          <span>*3</span><br>
+          <span>100$</span>
+        </button>
       </div>
+    </div>
+    <div id="page2" style="display: none;">
+      <button class="btn" onclick="hardReset()">硬重置</button>
+      <button class="btn" onclick="save()">保存游戏</button>
+      <button class="btn" onclick="load()">加载游戏</button>
     </div>
       
   </body>
   <script type="text/javascript" src="js/format-expantanum.js"></script>
   <script type="text/javascript" src="js/ExpantaNum.js"></script>
+  <script type="text/javascript" src="js/pako.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
 </html>
