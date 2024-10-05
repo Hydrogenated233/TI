@@ -16,7 +16,8 @@
     <!--选单-->
     <div class="line"></div>
     <button class="btn" onclick="switchTo(1)">主页</button>
-    <button class="btn" onclick="switchTo(2)">设置</button>
+    <button class="btn" onclick="switchTo(2)">木板</button>
+    <button class="btn" onclick="switchTo(3)">设置</button>
     <div class="line"></div>
     <div id="page1">
       <!--按钮-->
@@ -57,16 +58,39 @@
           <span>机器收割</span><br>
           <span>*5</span><br>
           <span id="upgrade5Cost"></span>
+          <button id="upgrade6" class="btn" onclick="buy(6)">
+            <span>合同</span><br>
+            <span>每秒获得10%$</span><br>
+            <span id="upgrade6Cost"></span>
         </button>
       </div>
     </div>
-    
     <div id="page2" style="display: none;">
+      <button onclick="makeWood()" class="btn">
+        <span>把你的树加工</span>
+        <br>
+        <span>+</span>
+        <span id="woodGetDisplay"></span>
+        <span>木板</span>
+      </button>
+      <div class="line"></div>
+      <span>你有<span id="woodDisplay"></span>木板</span><br>
+      <button id="upgrade7" class="btn" onclick="buy(7)">
+        <span>加强木</span><br>
+        <span>树价值*2</span><br>
+        <span id="upgrade7Cost"></span>
+    </button>
+    </div>
+    
+    <div id="page3" style="display: none;">
       <button class="btn" onclick="hardReset()">硬重置</button>
       <button class="btn" onclick="save()">保存游戏</button>
       <button class="btn" onclick="load()">加载游戏</button>
       <button class="btn" onclick="loadText()">导入存档</button>
       <button class="btn" onclick="export_copy()">导出至粘贴板</button>
+      <div class="line"></div>
+      <span>开发者工具</span><br>
+      <button class="btn" onclick="save();location.reload()">重载</button>
     </div>
       
   </body>

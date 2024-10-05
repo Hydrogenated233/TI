@@ -4,15 +4,17 @@ hideNotify();
 const f=30;
 let nowLookAt="page1";
 const upgradeEffect=[
-    [100,upgradeText(1.5,"treesPerSec","mul")],
-    [100,upgradeText(3,"treesPerSec","mul")],
-    [500,upgradeText(5,"treesPerSec","mul")],
-    [2500,upgradeText(10,"treesPerSec","mul")],
-    [2500,upgradeText(5,"treesPerSec","mul")],
+    [100,upgradeText(1.5,"treesPerSec","mul"),"$"],
+    [100,upgradeText(3,"treesPerSec","mul"),"$"],
+    [500,upgradeText(5,"treesPerSec","mul"),"$"],
+    [2500,upgradeText(10,"treesPerSec","mul"),"$"],
+    [2500,upgradeText(5,"treesPerSec","mul"),"$"],
+    [10000,"player.autoMoney=0.1;","$"],
+    [10,"player.treesMonety=player.treesMonety.mul(2);","木板"],
 ]
 //填充文字
 for(let i=1;i<=upgradeEffect.length;i++){
-    document.getElementById("upgrade"+i+"Cost").innerHTML=upgradeEffect[i-1][0]+"$";
+    document.getElementById("upgrade"+i+"Cost").innerHTML=upgradeEffect[i-1][0]+upgradeEffect[i-1][2];
 }
 /*
 报错可能：
@@ -29,16 +31,21 @@ for(let i=0;i<upgradeEffect.length;i++){
 }
 let player={
     trees: N(0),
+    treesMoney: N(3),
     treesPerSec: N(1),
     money: N(0),
-    upgrades: tmp
+    upgrades: tmp,
+    autoMoney: 0,
+    wood: N(0)
 };
 function hardReset(){
     player={
         trees: N(0),
         treesPerSec: N(1),
         money: N(0),
-        upgrades: tmp
+        upgrades: tmp,
+        autoMoney: 0,
+        wood: N(0)
     };
 };
 function save() {//借鉴的
@@ -167,6 +174,8 @@ function N(x){
     return new ExpantaNum(x);
 }
 function buy(id){
+    if(upgradeEffect[id-1][2]=='$') token=player.money;
+    if(upgradeEffect[id-1][2]=='木板') token=player.wood;
     if (player.upgrades[id-1]==0 && player.money>=upgradeEffect[id-1][0] && (player.upgrades[id-2]==1 || id==1)){
         player.upgrades[id-1]=1;
         player.money=player.money.sub(upgradeEffect[id-1][0]);
@@ -174,7 +183,9 @@ function buy(id){
     }
 }
 function tick(){
+    let moneyGain=player.trees.mul(3);
     player.trees=player.trees.add(player.treesPerSec.div(f));
+    player.money=player.money.add(moneyGain.mul(player.autoMoney).div(f));
     fixUpgradesColor();
     updateDisplay();
 }
@@ -182,14 +193,22 @@ function setIdInnerHtml(id, text){
     document.getElementById(id).innerHTML=text;
 }
 function sellTrees(){
-    player.money=player.money.add(player.trees.mul(3));
+    let moneyGain=player.trees.mul(player.treesMoney);
+    player.money=player.money.add(moneyGain);
+    player.trees=N(0);
+}
+function makeWood(){
+    let woodGain=player.trees.div(10000);
+    player.wood=player.wood.add(woodGain);
     player.trees=N(0);
 }
 function updateDisplay(){
     setIdInnerHtml("treesDisplay","你有"+format(player.trees)+"棵树");
     setIdInnerHtml("treesPerSecDisplay","(+"+format(player.treesPerSec)+"/s)");
     setIdInnerHtml("moneyDisplay",format(player.money));
-    setIdInnerHtml("moneyGetDisplay",format(player.trees.mul(3)));
+    setIdInnerHtml("moneyGetDisplay",format(player.trees.mul(player.treesMoney)));
+    setIdInnerHtml("woodDisplay",format(player.wood));
+    setIdInnerHtml("woodGetDisplay",format(player.trees.div(10000)));
 }
 
 var formatsave = {
