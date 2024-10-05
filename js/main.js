@@ -10,7 +10,7 @@ const upgradeEffect=[
     [2500,upgradeText(10,"treesPerSec","mul"),"$"],
     [2500,upgradeText(5,"treesPerSec","mul"),"$"],
     [10000,"player.autoMoney=0.1;","$"],
-    [10,"player.treesMonety=player.treesMonety.mul(2);","木板"],
+    [10,"player.treesMonety=player.treesMoney.mul(2);","木板"],
 ]
 //填充文字
 for(let i=1;i<=upgradeEffect.length;i++){
@@ -31,7 +31,7 @@ for(let i=0;i<upgradeEffect.length;i++){
 }
 let player={
     trees: N(0),
-    treesMoney: N(3),
+    treesMoney: N(1),
     treesPerSec: N(1),
     money: N(0),
     upgrades: tmp,
@@ -39,8 +39,13 @@ let player={
     wood: N(0)
 };
 function hardReset(){
+    let tmp=[];
+    for(let i=0;i<upgradeEffect.length;i++){
+        tmp.push(0);
+    }
     player={
         trees: N(0),
+        treesMoney: N(1),
         treesPerSec: N(1),
         money: N(0),
         upgrades: tmp,
@@ -174,16 +179,23 @@ function N(x){
     return new ExpantaNum(x);
 }
 function buy(id){
-    if(upgradeEffect[id-1][2]=='$') token=player.money;
-    if(upgradeEffect[id-1][2]=='木板') token=player.wood;
-    if (player.upgrades[id-1]==0 && player.money>=upgradeEffect[id-1][0] && (player.upgrades[id-2]==1 || id==1)){
-        player.upgrades[id-1]=1;
-        player.money=player.money.sub(upgradeEffect[id-1][0]);
-        eval(upgradeEffect[id-1][1]);
+    if(upgradeEffect[id-1][2]=='$'){
+        if (player.upgrades[id-1]==0 && player.money>=upgradeEffect[id-1][0] && (player.upgrades[id-2]==1 || id==1)){
+            player.upgrades[id-1]=1;
+            player.money=player.money.sub(upgradeEffect[id-1][0]);
+            eval(upgradeEffect[id-1][1]);
+        }
+    }
+    if(upgradeEffect[id-1][2]=='木板'){
+        if (player.upgrades[id-1]==0 && player.wood>=upgradeEffect[id-1][0] && (player.upgrades[id-2]==1 || id==1)){
+            player.upgrades[id-1]=1;
+            player.wood=player.wood.sub(upgradeEffect[id-1][0]);
+            eval(upgradeEffect[id-1][1]);
+        }
     }
 }
 function tick(){
-    let moneyGain=player.trees.mul(3);
+    let moneyGain=player.trees.mul(player.treesMoney.mul(3));
     player.trees=player.trees.add(player.treesPerSec.div(f));
     player.money=player.money.add(moneyGain.mul(player.autoMoney).div(f));
     fixUpgradesColor();
@@ -193,12 +205,12 @@ function setIdInnerHtml(id, text){
     document.getElementById(id).innerHTML=text;
 }
 function sellTrees(){
-    let moneyGain=player.trees.mul(player.treesMoney);
+    let moneyGain=player.trees.mul(player.treesMoney.mul(3));
     player.money=player.money.add(moneyGain);
     player.trees=N(0);
 }
 function makeWood(){
-    let woodGain=player.trees.div(10000);
+    let woodGain=player.trees.mul(N(0.0001).mul(player.treesMoney));
     player.wood=player.wood.add(woodGain);
     player.trees=N(0);
 }
@@ -252,7 +264,6 @@ var formatsave = {
       return this.steps.reduceRight((x, f) => f.decode(x), s);
     },
 }
-
 load();
 setInterval(tick,1000/f);
 setInterval(save,30000);
