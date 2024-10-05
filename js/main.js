@@ -1,13 +1,89 @@
 "use strict";
+var notify = document.getElementById('notify');
+hideNotify();
 const f=30;
 let nowLookAt="page1";
 const upgradeEffect=[
-    [100,"player.treesPerSec=player.treesPerSec.mul(1.5);"],
-    [100,"player.treesPerSec=player.treesPerSec.mul(3);"]
+    [100,upgradeText(1.5,"treesPerSec","mul")],
+    [100,upgradeText(3,"treesPerSec","mul")],
+    [500,upgradeText(5,"treesPerSec","mul")],
+    [2500,upgradeText(10,"treesPerSec","mul")],
+    [2500,upgradeText(5,"treesPerSec","mul")],
 ]
+//填充文字
+for(let i=1;i<=upgradeEffect.length;i++){
+    document.getElementById("upgrade"+i+"Cost").innerHTML=upgradeEffect[i-1][0]+"$";
+}
+/*
+报错可能：
+upgradeEffect
+upgrades[id]
+upgrades[id]Cost
+*/
+function upgradeText(m,t,o){
+    return "player."+t+"=player."+t+"."+o+"("+m+");"
+}
+let tmp=[];
+for(let i=0;i<upgradeEffect.length;i++){
+    tmp.push(0);
+}
+let player={
+    trees: N(0),
+    treesPerSec: N(1),
+    money: N(0),
+    upgrades: tmp
+};
 function save() {//借鉴的
+    addNotify("保存成功");
     localStorage.setItem("tree-inc", formatsave.encode(player));
 }
+function load() {//+1
+    addNotify("加载成功");
+    let loadplayer = localStorage.getItem("tree-inc");
+    if(loadplayer != null) {
+      let loadplayer = formatsave.decode(localStorage.getItem("tree-inc"));
+      transformToE(loadplayer);
+      deepCopyProps(loadplayer, player);
+    }
+}
+function loadText() {//+1
+    addNotify("导入成功");
+    var loadplayer=prompt("请输入你的存档：");
+    if(loadplayer != null) {;
+      transformToE(loadplayer);
+      deepCopyProps(loadplayer, player);
+    }
+}
+function copyToClipboard(textToCopy) {
+  if(document.execCommand('copy')) {
+    // 创建textarea
+    var textArea = document.createElement("textarea");
+    textArea.value = textToCopy;
+    // 使textarea不在viewport，同时设置不可见
+    textArea.style.position = "fixed";
+    textArea.style.opacity = 0;
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    addNotify("复制成功");
+    return new Promise((res, rej) => {
+      // 执行复制命令并移除文本框
+      document.execCommand('copy') ? res() : rej();
+      textArea.remove();
+    });
+  } else if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+    // navigator clipboard 向剪贴板写文本
+    return navigator.clipboard.writeText(textToCopy);
+  }
+  addNotify("复制失败");
+}
+function export_copy() {
+    save()
+    return copyToClipboard(formatsave.encode(player));
+}
+
 function noneBefore(){
     document.getElementById(nowLookAt).style.display="none";
 }
@@ -16,14 +92,24 @@ function switchTo(k){
     nowLookAt='page'+k;
     document.getElementById(nowLookAt).style.display="block";
 }
-function load() {//+1
-    let loadplayer = localStorage.getItem("tree-inc");
-    if(loadplayer != null) {
-      let loadplayer = formatsave.decode(localStorage.getItem("tree-inc"));
-      transformToE(loadplayer);
-      deepCopyProps(loadplayer, player);
-    }
+
+
+// 显示通知框  
+function showNotify(str) {
+  notify.classList.remove('hide');
+  notify.innerHTML = str
 }
+// 隐藏通知框  
+function hideNotify() {
+  notify.classList.add('hide');
+}
+function addNotify(str) {
+  showNotify(str)
+  setTimeout(function() {
+    hideNotify()
+  }, 1000)
+}
+
 function fixUpgradesColor(){
     for(let i=1;i<=player.upgrades.length;i++){
         if(player.upgrades[i-1]==1){
@@ -38,6 +124,7 @@ function fixUpgradesColor(){
         }
     }
 }
+
 function deepCopyProps(source,target) {//+2
   for (let key in source) {  
         if (source.hasOwnProperty(key)) {  
@@ -66,6 +153,7 @@ function transformToE(object) {//+3
       }
     }
   }
+
 function hardReset(){
     player={
         trees: N(0),
@@ -102,12 +190,7 @@ function updateDisplay(){
     setIdInnerHtml("moneyDisplay",format(player.money));
     setIdInnerHtml("moneyGetDisplay",format(player.trees.mul(3)));
 }
-var player={
-    trees: N(0),
-    treesPerSec: N(1),
-    money: N(0),
-    upgrades: [0,0]
-};
+
 var formatsave = {
     encoder: new TextEncoder(),
     decoder: new TextDecoder(),
@@ -149,6 +232,7 @@ var formatsave = {
       return this.steps.reduceRight((x, f) => f.decode(x), s);
     },
 }
+
 load();
 setInterval(tick,1000/f);
 setInterval(save,30000);

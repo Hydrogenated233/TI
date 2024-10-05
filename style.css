@@ -54,7 +54,7 @@ html {
     padding: 7px 25px;
     text-decoration: none;
     border: 1px solid #999;
-    background: #333;
+    background: #444;
     color: white;
     display: inline-block;
 }
@@ -65,7 +65,7 @@ html {
     padding: 7px 25px;
     text-decoration: none;
     border: 1px solid #777;
-    background: green;
+    background: #474;
     color: white;
     display: inline-block;
 }
@@ -76,7 +76,29 @@ html {
     padding: 7px 25px;
     text-decoration: none;
     border: 1px solid #999;
-    background: yellowgreen;
+    background: #8b8;
     color: white;
     display: inline-block;
+}
+#notify{
+    z-index: 9999;
+    position: fixed;
+    left: 50%;
+    top: 20px;
+    transform: translate(-50%, 0);
+    width: 400px;
+    min-height: 10px;
+    color: white;
+    border: solid 2px #222;
+    background-color: #171717;
+    padding: 7px 25px;
+    transition-duration: 0.75s;
+}
+  
+#notify.hide {
+    opacity: 0;
+    top: -130px;
+}
+#news{
+    white-space: nowrap;
 }

@@ -8,10 +8,12 @@
   <body>
     <!--上方文字-->
     <div>
+      <span id="notify"></span>
       <div><span id="news"></span></div>
       <div><span class="rainbow" id="treesDisplay">你有0棵树</span></div>
       <div><span id="treesPerSecDisplay">(+0/s)</span></div>
     </div>
+    <!--选单-->
     <div class="line"></div>
     <button class="btn" onclick="switchTo(1)">主页</button>
     <button class="btn" onclick="switchTo(2)">设置</button>
@@ -34,19 +36,37 @@
         <button id="upgrade1" class="btn" onclick="buy(1)">
           <span>洒水机</span><br>
           <span>*1.5</span><br>
-          <span>100$</span>
+          <span id="upgrade1Cost"></span>
         </button>
         <button id="upgrade2" class="btn" onclick="buy(2)">
           <span>员工1</span><br>
           <span>*3</span><br>
-          <span>100$</span>
+          <span id="upgrade2Cost"></span>
+        </button>
+        <button id="upgrade3" class="btn" onclick="buy(3)">
+          <span>基因改良</span><br>
+          <span>*5</span><br>
+          <span id="upgrade3Cost"></span>
+        </button>
+        <button id="upgrade4" class="btn" onclick="buy(4)">
+          <span>机器种植</span><br>
+          <span>*10</span><br>
+          <span id="upgrade4Cost"></span>
+        </button>
+        <button id="upgrade5" class="btn" onclick="buy(5)">
+          <span>机器收割</span><br>
+          <span>*5</span><br>
+          <span id="upgrade5Cost"></span>
         </button>
       </div>
     </div>
+    
     <div id="page2" style="display: none;">
       <button class="btn" onclick="hardReset()">硬重置</button>
       <button class="btn" onclick="save()">保存游戏</button>
       <button class="btn" onclick="load()">加载游戏</button>
+      <button class="btn" onclick="loadText()">导入存档</button>
+      <button class="btn" onclick="export_copy()">导出至粘贴板</button>
     </div>
       
   </body>
