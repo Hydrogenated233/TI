@@ -33,6 +33,14 @@ let player={
     money: N(0),
     upgrades: tmp
 };
+function hardReset(){
+    player={
+        trees: N(0),
+        treesPerSec: N(1),
+        money: N(0),
+        upgrades: tmp
+    };
+};
 function save() {//借鉴的
     addNotify("保存成功");
     localStorage.setItem("tree-inc", formatsave.encode(player));
@@ -154,14 +162,7 @@ function transformToE(object) {//+3
     }
   }
 
-function hardReset(){
-    player={
-        trees: N(0),
-        treesPerSec: N(1),
-        money: N(0),
-        upgrades: [0,0]
-    };
-}
+
 function N(x){
     return new ExpantaNum(x);
 }
