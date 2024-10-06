@@ -11,6 +11,7 @@ const upgradeEffect=[
     [2500,"$"],
     [10000,"$"],
     [10,"木板"],
+    [30,"木板"]
 ]
 //填充文字
 for(let i=1;i<=upgradeEffect.length;i++){
@@ -22,9 +23,6 @@ upgradeEffect
 upgrades[id]
 upgrades[id]Cost
 */
-function upgradeText(m,t,o){
-    return "player."+t+"=player."+t+"."+o+"("+m+");"
-}
 let tmp=[];
 for(let i=0;i<upgradeEffect.length;i++){
     tmp.push(0);
@@ -202,6 +200,7 @@ function getGain(){
   if(player.upgrades[4]) gain=gain.mul(5);
   if(player.upgrades[5]) player.autoMoney=0.1;
   if(player.upgrades[6]) player.treesMoney=player.treesMoney.mul(2);
+  if(player.upgrades[7]) gain=gain.mul(player.wood.ln().add(1))
   return gain;
 }
 function tick(){
@@ -231,6 +230,7 @@ function updateDisplay(){
     setIdInnerHtml("moneyGetDisplay",format(player.trees.mul(player.treesMoney.mul(3))));
     setIdInnerHtml("woodDisplay",format(player.wood));
     setIdInnerHtml("woodGetDisplay",format(player.trees.mul(N(0.0001).mul(player.treesMoney))));
+    if(player.upgrades[7])setIdInnerHtml("upgrade8Effect","*"+format(player.wood.ln().add(1)));
 }
 
 var formatsave = {//+1
