@@ -4,17 +4,17 @@ hideNotify();
 const f=30;
 let nowLookAt="page1";
 const upgradeEffect=[
-    [100,upgradeText(1.5,"treesPerSec","mul"),"$"],
-    [100,upgradeText(3,"treesPerSec","mul"),"$"],
-    [500,upgradeText(5,"treesPerSec","mul"),"$"],
-    [2500,upgradeText(10,"treesPerSec","mul"),"$"],
-    [2500,upgradeText(5,"treesPerSec","mul"),"$"],
-    [10000,"player.autoMoney=0.1;","$"],
-    [10,"player.treesMonety=player.treesMoney.mul(2);","木板"],
+    [100,"$"],
+    [100,"$"],
+    [500,"$"],
+    [2500,"$"],
+    [2500,"$"],
+    [10000,"$"],
+    [10,"木板"],
 ]
 //填充文字
 for(let i=1;i<=upgradeEffect.length;i++){
-    document.getElementById("upgrade"+i+"Cost").innerHTML=upgradeEffect[i-1][0]+upgradeEffect[i-1][2];
+    document.getElementById("upgrade"+i+"Cost").innerHTML=upgradeEffect[i-1][0]+upgradeEffect[i-1][1];
 }
 /*
 报错可能：
@@ -67,14 +67,14 @@ function load() {//+1
     }
 }
 function loadText() {//+1
-    addNotify("导入成功");
     var loadplayer=prompt("请输入你的存档：");
     if(loadplayer != null) {;
-      transformToE(loadplayer);
-      deepCopyProps(loadplayer, player);
+      localStorage.setItem("tree-inc", loadplayer)
+      load();
     }
+    addNotify("导入成功");
 }
-function copyToClipboard(textToCopy) {
+function copyToClipboard(textToCopy) {//+1
   if(document.execCommand('copy')) {
     // 创建textarea
     var textArea = document.createElement("textarea");
@@ -99,7 +99,7 @@ function copyToClipboard(textToCopy) {
   }
   addNotify("复制失败");
 }
-function export_copy() {
+function export_copy() {//+1
     save()
     return copyToClipboard(formatsave.encode(player));
 }
@@ -115,15 +115,15 @@ function switchTo(k){
 
 
 // 显示通知框  
-function showNotify(str) {
+function showNotify(str) {//+1
   notify.classList.remove('hide');
   notify.innerHTML = str
 }
 // 隐藏通知框  
-function hideNotify() {
+function hideNotify() {//+1
   notify.classList.add('hide');
 }
-function addNotify(str) {
+function addNotify(str) {//+1
   showNotify(str)
   setTimeout(function() {
     hideNotify()
@@ -145,7 +145,7 @@ function fixUpgradesColor(){
     }
 }
 
-function deepCopyProps(source,target) {//+2
+function deepCopyProps(source,target) {//+1
   for (let key in source) {  
         if (source.hasOwnProperty(key)) {  
             // 如果源对象的属性是对象或数组，则递归复制  
@@ -163,7 +163,7 @@ function deepCopyProps(source,target) {//+2
         }  
     }  
 }
-function transformToE(object) {//+3
+function transformToE(object) {//+1
     for(let key in object) {
       if(typeof object[key] === "string" && !new E(object[key]).isNaN()) {
         object[key] = new E(object[key]);
@@ -179,24 +179,34 @@ function N(x){
     return new ExpantaNum(x);
 }
 function buy(id){
-    if(upgradeEffect[id-1][2]=='$'){
+    if(upgradeEffect[id-1][1]=='$'){
         if (player.upgrades[id-1]==0 && player.money>=upgradeEffect[id-1][0] && (player.upgrades[id-2]==1 || id==1)){
             player.upgrades[id-1]=1;
             player.money=player.money.sub(upgradeEffect[id-1][0]);
-            eval(upgradeEffect[id-1][1]);
         }
     }
-    if(upgradeEffect[id-1][2]=='木板'){
+    if(upgradeEffect[id-1][1]=='木板'){
         if (player.upgrades[id-1]==0 && player.wood>=upgradeEffect[id-1][0] && (player.upgrades[id-2]==1 || id==1)){
             player.upgrades[id-1]=1;
             player.wood=player.wood.sub(upgradeEffect[id-1][0]);
-            eval(upgradeEffect[id-1][1]);
         }
     }
 }
+function getGain(){
+  let gain=N(1);
+  player.treesMoney=N(1);
+  if(player.upgrades[0]) gain=gain.mul(1.5);
+  if(player.upgrades[1]) gain=gain.mul(3);
+  if(player.upgrades[2]) gain=gain.mul(5);
+  if(player.upgrades[3]) gain=gain.mul(10);
+  if(player.upgrades[4]) gain=gain.mul(5);
+  if(player.upgrades[5]) player.autoMoney=0.1;
+  if(player.upgrades[6]) player.treesMoney=player.treesMoney.mul(2);
+  return gain;
+}
 function tick(){
     let moneyGain=player.trees.mul(player.treesMoney.mul(3));
-    player.trees=player.trees.add(player.treesPerSec.div(f));
+    player.trees=player.trees.add(getGain().div(f));
     player.money=player.money.add(moneyGain.mul(player.autoMoney).div(f));
     fixUpgradesColor();
     updateDisplay();
@@ -216,14 +226,14 @@ function makeWood(){
 }
 function updateDisplay(){
     setIdInnerHtml("treesDisplay","你有"+format(player.trees)+"棵树");
-    setIdInnerHtml("treesPerSecDisplay","(+"+format(player.treesPerSec)+"/s)");
+    setIdInnerHtml("treesPerSecDisplay","(+"+format(getGain())+"/s)");
     setIdInnerHtml("moneyDisplay",format(player.money));
-    setIdInnerHtml("moneyGetDisplay",format(player.trees.mul(player.treesMoney)));
+    setIdInnerHtml("moneyGetDisplay",format(player.trees.mul(player.treesMoney.mul(3))));
     setIdInnerHtml("woodDisplay",format(player.wood));
-    setIdInnerHtml("woodGetDisplay",format(player.trees.div(10000)));
+    setIdInnerHtml("woodGetDisplay",format(player.trees.mul(N(0.0001).mul(player.treesMoney))));
 }
 
-var formatsave = {
+var formatsave = {//+1
     encoder: new TextEncoder(),
     decoder: new TextDecoder(),
     startString: 'TreesIncSaveFormat',
