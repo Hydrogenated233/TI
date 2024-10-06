@@ -34,34 +34,23 @@
       <div class="line"></div>
       <div>
         <span>你有<span id="moneyDisplay"></span>$</span><br>
-        <button id="upgrade1" class="btn" onclick="buy(1)">
-          <span>洒水机</span><br>
-          <span>*1.5</span><br>
-          <span id="upgrade1Cost"></span>
+        <span class="upText" id="page1Text"></span><br>
+        <button id="upgrade1" class="btn" onclick="buy(1);showText(1)">
+          1
         </button>
-        <button id="upgrade2" class="btn" onclick="buy(2)">
-          <span>员工1</span><br>
-          <span>*3</span><br>
-          <span id="upgrade2Cost"></span>
+        <button id="upgrade2" class="btn" onclick="buy(2);showText(2)">
+          2
         </button>
-        <button id="upgrade3" class="btn" onclick="buy(3)">
-          <span>基因改良</span><br>
-          <span>*5</span><br>
-          <span id="upgrade3Cost"></span>
+        <button id="upgrade3" class="btn" onclick="buy(3);showText(3)">
+          3
         </button>
-        <button id="upgrade4" class="btn" onclick="buy(4)">
-          <span>机器种植</span><br>
-          <span>*10</span><br>
-          <span id="upgrade4Cost"></span>
+        <button id="upgrade4" class="btn" onclick="buy(4);showText(4)">
+          4
         </button>
-        <button id="upgrade5" class="btn" onclick="buy(5)">
-          <span>机器收割</span><br>
-          <span>*5</span><br>
-          <span id="upgrade5Cost"></span>
-          <button id="upgrade6" class="btn" onclick="buy(6)">
-            <span>合同</span><br>
-            <span>每秒获得10%$</span><br>
-            <span id="upgrade6Cost"></span>
+        <button id="upgrade5" class="btn" onclick="buy(5);showText(5)">
+          5
+        <button id="upgrade6" class="btn" onclick="buy(6);showText(6)">
+          6
         </button>
       </div>
     </div>
@@ -74,17 +63,13 @@
         <span>木板</span>
       </button>
       <div class="line"></div>
+      <span class="upText" id="page2Text"></span><br>
       <span>你有<span id="woodDisplay"></span>木板</span><br>
-      <button id="upgrade7" class="btn" onclick="buy(7)">
-        <span>加强木</span><br>
-        <span>树价值*2</span><br>
-        <span id="upgrade7Cost"></span>
+      <button id="upgrade7" class="btn" onclick="buy(7);showText(7)">
+        7
       </button>
-      <button id="upgrade8" class="btn" onclick="buy(8)">
-        <span>加强机器</span><br>
-        <span>*1+ln(木板)</span><br>
-        <span id="upgrade8Effect">*1</span><br>
-        <span id="upgrade8Cost"></span>
+      <button id="upgrade8" class="btn" onclick="buy(8);showText(8)">
+        8
       </button>
     </div>
     

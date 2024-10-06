@@ -14,9 +14,7 @@ const upgradeEffect=[
     [30,"木板"]
 ]
 //填充文字
-for(let i=1;i<=upgradeEffect.length;i++){
-    document.getElementById("upgrade"+i+"Cost").innerHTML=upgradeEffect[i-1][0]+upgradeEffect[i-1][1];
-}
+
 /*
 报错可能：
 upgradeEffect
@@ -176,6 +174,22 @@ function transformToE(object) {//+1
 function N(x){
     return new ExpantaNum(x);
 }
+function showText(id){
+  let effectTexts=[
+    "洒水机<br>*1.5<br><span id='upgrade1Cost'></span>",
+    "员工1<br>*3<br><span id='upgrade2Cost'></span>",
+    "基因改良<br>*5<br><span id='upgrade3Cost'></span>",
+    "机器种植<br>*10<br><span id='upgrade4Cost'></span>",
+    "机器收割<br>*5<br><span id='upgrade5Cost'></span>",
+    "合同<br>每秒获得10%$<br><span id='upgrade6Cost'></span>",
+    "加强木<br>树价值*2<br><span id='upgrade7Cost'></span>",
+    "加强机器<br>*1+ln(木板)<br>*"+format(player.wood.gt(0)?player.wood.ln().add(1):1)+"<br><span id='upgrade8Cost'></span>",
+  ]
+  let text=document.getElementById("page"+JSON.stringify(id<7?1:2)+"Text");
+  text.display="block";
+  text.innerHTML=effectTexts[id-1];
+  document.getElementById("upgrade"+id+"Cost").innerHTML=upgradeEffect[id-1][0]+upgradeEffect[id-1][1];
+}
 function buy(id){
     if(upgradeEffect[id-1][1]=='$'){
         if (player.upgrades[id-1]==0 && player.money>=upgradeEffect[id-1][0] && (player.upgrades[id-2]==1 || id==1)){
@@ -230,7 +244,6 @@ function updateDisplay(){
     setIdInnerHtml("moneyGetDisplay",format(player.trees.mul(player.treesMoney.mul(3))));
     setIdInnerHtml("woodDisplay",format(player.wood));
     setIdInnerHtml("woodGetDisplay",format(player.trees.mul(N(0.0001).mul(player.treesMoney))));
-    if(player.upgrades[7])setIdInnerHtml("upgrade8Effect","*"+format(player.wood.ln().add(1)));
 }
 
 var formatsave = {//+1
