@@ -16,20 +16,22 @@ html {
     height: 5px;
     margin-bottom: 13px;
 }
-.upText{
-    cursor: pointer;
-    font-size: 20px;
-    max-width: 250px;
-    text-decoration: none;
-    border: 2px solid #777;
-    color: white;
-    display: inline-block;
-}
 .btn {
     cursor: pointer;
     font-size: 18px;
     max-width: 250px;
     padding: 7px 25px;
+    text-decoration: none;
+    border: 1px solid #777;
+    background: #333;
+    color: white;
+    display: inline-block;
+}
+.upText {
+    cursor: pointer;
+    font-size: 18px;
+    max-width: 250px;
+    padding: 7px 15px;
     text-decoration: none;
     border: 1px solid #777;
     background: #333;

@@ -4,14 +4,14 @@ hideNotify();
 const f=30;
 let nowLookAt="page1";
 const upgradeEffect=[
-    [100,"$"],
-    [100,"$"],
-    [500,"$"],
-    [2500,"$"],
-    [2500,"$"],
-    [10000,"$"],
-    [10,"木板"],
-    [30,"木板"]
+    [N(100),"$"],
+    [N(100),"$"],
+    [N(500),"$"],
+    [N(2500),"$"],
+    [N(2500),"$"],
+    [N(10000),"$"],
+    [N(10),"木板"],
+    [N(30),"木板"]
 ]
 //填充文字
 
@@ -188,17 +188,17 @@ function showText(id){
   let text=document.getElementById("page"+JSON.stringify(id<7?1:2)+"Text");
   text.display="block";
   text.innerHTML=effectTexts[id-1];
-  document.getElementById("upgrade"+id+"Cost").innerHTML=upgradeEffect[id-1][0]+upgradeEffect[id-1][1];
+  document.getElementById("upgrade"+id+"Cost").innerHTML=format(upgradeEffect[id-1][0])+upgradeEffect[id-1][1];
 }
 function buy(id){
     if(upgradeEffect[id-1][1]=='$'){
-        if (player.upgrades[id-1]==0 && player.money>=upgradeEffect[id-1][0] && (player.upgrades[id-2]==1 || id==1)){
+        if (player.upgrades[id-1]==0 && player.money.gt(upgradeEffect[id-1][0]) && (player.upgrades[id-2]==1 || id==1)){
             player.upgrades[id-1]=1;
             player.money=player.money.sub(upgradeEffect[id-1][0]);
         }
     }
     if(upgradeEffect[id-1][1]=='木板'){
-        if (player.upgrades[id-1]==0 && player.wood>=upgradeEffect[id-1][0] && (player.upgrades[id-2]==1 || id==1)){
+        if (player.upgrades[id-1]==0 && player.wood.gt(upgradeEffect[id-1][0]) && (player.upgrades[id-2]==1 || id==1)){
             player.upgrades[id-1]=1;
             player.wood=player.wood.sub(upgradeEffect[id-1][0]);
         }
