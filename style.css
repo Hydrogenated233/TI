@@ -16,6 +16,12 @@ html {
     height: 5px;
     margin-bottom: 13px;
 }
+.soft {
+    color: hsl(237, 15%, 47%);
+    font-weight: bold;
+    text-shadow: 0px 1px 0px hsl(252, 19%, 57%);
+    pointer-events: none;
+}
 #news{
   color: white;
   width: 100%;
@@ -34,6 +40,17 @@ html {
 #newsText{
     white-space: nowrap;
 }
+.up {
+    width: 40px;
+    height: 40px;
+    border: solid 2px #333;
+    background: #333;
+    color: white;
+    display: inline-block;
+}
+.up:hover {
+    background: #555;
+}
 .btn {
     cursor: pointer;
     font-size: 18px;
@@ -51,8 +68,6 @@ html {
     max-width: 250px;
     padding: 7px 15px;
     text-decoration: none;
-    border: 1px solid #777;
-    background: #333;
     color: white;
     display: inline-block;
 }
@@ -68,46 +83,21 @@ html {
     display: inline-block;
 }
 .cantBuy{
-    font-size: 18px;
-    max-width: 250px;
-    padding: 7px 25px;
-    text-decoration: none;
     border: 1px solid #777;
     background: #222;
-    color: white;
-    display: inline-block;
 }
 .cantBuy:hover{
-    font-size: 18px;
-    max-width: 250px;
-    padding: 7px 25px;
-    text-decoration: none;
     border: 1px solid #999;
     background: #444;
-    color: white;
-    display: inline-block;
 }
 .buyed{
-    cursor: pointer;
-    font-size: 18px;
-    max-width: 250px;
-    padding: 7px 25px;
-    text-decoration: none;
     border: 1px solid #777;
     background: #474;
-    color: white;
-    display: inline-block;
+
 }
 .buyed:hover{
-    cursor: pointer;
-    font-size: 18px;
-    max-width: 250px;
-    padding: 7px 25px;
-    text-decoration: none;
     border: 1px solid #999;
     background: #8b8;
-    color: white;
-    display: inline-block;
 }
 #notify{
     z-index: 9999;
