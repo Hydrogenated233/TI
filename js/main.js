@@ -35,6 +35,16 @@ let player={
     autoMoney: 0,
     wood: N(0)
 };
+function getUndulatingColor(period = Math.sqrt(760)) {
+    let t = new Date().getTime()
+    let a = Math.sin(t / 1e3 / period * 2 * Math.PI + 0)
+    let b = Math.sin(t / 1e3 / period * 2 * Math.PI + 2)
+    let c = Math.sin(t / 1e3 / period * 2 * Math.PI + 4)
+    a = convertToB16(Math.floor(a * 128) + 128)
+    b = convertToB16(Math.floor(b * 128) + 128)
+    c = convertToB16(Math.floor(c * 128) + 128)
+    return "#" + String(a) + String(b) + String(c)
+}
 function hardReset(){
     let tmp=[];
     for(let i=0;i<upgradeEffect.length;i++){
@@ -77,7 +87,11 @@ function addNotify(str) {//+1
     hideNotify()
   }, 1000)
 }
-
+function convertToB16(n) {
+    let codes = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+    let x = n % 16
+    return codes[(n - x) / 16] + codes[x]
+}
 function fixUpgradesColor(){
     for(let i=1;i<=player.upgrades.length;i++){
         if(player.upgrades[i-1]==1){
@@ -161,6 +175,8 @@ function makeWood(){
     player.trees=N(0);
 }
 function updateDisplay(){
+    let rains=document.getElementsByClassName('rain');
+    for(let i=0;i<rains.length;i++)rains[i].style="color:"+getUndulatingColor();
     setIdInnerHtml("treesDisplay","你有"+format(player.trees)+"棵树");
     setIdInnerHtml("treesPerSecDisplay","(+"+format(getGain())+"/s)");
     setIdInnerHtml("moneyDisplay",format(player.money));
