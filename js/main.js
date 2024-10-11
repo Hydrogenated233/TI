@@ -172,7 +172,7 @@ function upgEffect(){
   if(player.upgrades[9])gain=gain.mul(6);
   if(player.upgrades[10])player.treesMoney=player.treesMoney.mul(2);
   player.treesPerSec=gain;
-  if(gain.gt(softs[0])){gain=gain.sub(softs[0]).pow(0.7).floor().add(softs[0]);}
+  gain=gain.softcap(softs[0],0.7,'pow')
   for(let i=0;i<softs.length;i++) document.getElementById("soft"+(i+1)+"Start").innerHTML=softs[i];
   return gain;
 }
