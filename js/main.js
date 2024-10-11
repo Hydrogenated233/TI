@@ -3,6 +3,10 @@ var notify = document.getElementById('notify');
 let upgLookingAt=0;
 hideNotify();
 const f=30;
+let softs=[
+    N(5000)
+];
+
 let nowLookAt="page1";
 const upgradeEffect=[
     [N(100),"$"],
@@ -12,9 +16,11 @@ const upgradeEffect=[
     [N(2500),"$"],
     [N(10000),"$"],
     [N(10),"木板"],
-    [N(30),"木板"]
+    [N(30),"木板"],
+    [N(50),"木板"],
+    [N(80),"木板"],
+    [N(110),"木板"],
 ]
-//填充文字
 
 /*
 报错可能：
@@ -46,19 +52,23 @@ function getUndulatingColor(period = Math.sqrt(760)) {
     return "#" + String(a) + String(b) + String(c)
 }
 function hardReset(){
-    let tmp=[];
-    for(let i=0;i<upgradeEffect.length;i++){
-        tmp.push(0);
+    var c1=prompt("您确定要硬重置吗？输入“八百标兵奔北坡”确定")=="八百标兵奔北坡";
+    if(c1){
+        let tmp=[];
+        for(let i=0;i<upgradeEffect.length;i++){
+            tmp.push(0);
+        }
+        player={
+            trees: N(0),
+            treesMoney: N(1),
+            treesPerSec: N(1),
+            money: N(0),
+            upgrades: tmp,
+            autoMoney: 0,
+            wood: N(0)
+        };
     }
-    player={
-        trees: N(0),
-        treesMoney: N(1),
-        treesPerSec: N(1),
-        money: N(0),
-        upgrades: tmp,
-        autoMoney: 0,
-        wood: N(0)
-    };
+    save();
 };
 
 
@@ -120,6 +130,9 @@ function showText(id){
         "合同<br>每秒获得10%$<br><span id='upgrade6Cost'></span>",
         "加强木<br>树价值*2<br><span id='upgrade7Cost'></span>",
         "加强机器<br>*1+ln(木板)<br>*"+"<span id='up8Effect'>"+"</span>"+"<br><span id='upgrade8Cost'></span>",
+        "肥料<br>软上限1 延迟500<br>"+"<span id='upgrade9Cost'></span>",
+        "员工2<br>*6<br>"+"<span id='upgrade10Cost'></span>",
+        "大树<br>树价值*2<br>"+"<span id='upgrade11Cost'></span>",
         ]
         let text=document.getElementById("page"+JSON.stringify(id<7?1:2)+"Text");
         text.display="block";
@@ -141,8 +154,11 @@ function buy(id){
         }
     }
 }
-function getGain(){
+function upgEffect(){
   let gain=N(1);
+  softs=[
+    N(5000)
+];
   player.treesMoney=N(1);
   if(player.upgrades[0]) gain=gain.mul(1.5);
   if(player.upgrades[1]) gain=gain.mul(3);
@@ -151,12 +167,18 @@ function getGain(){
   if(player.upgrades[4]) gain=gain.mul(5);
   if(player.upgrades[5]) player.autoMoney=0.1;
   if(player.upgrades[6]) player.treesMoney=player.treesMoney.mul(2);
-  if(player.upgrades[7]) gain=gain.mul(player.wood.ln().add(1))
+  if(player.upgrades[7]) gain=gain.mul(player.wood.ln().add(1));
+  if(player.upgrades[8])softs[0]=softs[0].add(500);
+  if(player.upgrades[9])gain=gain.mul(6);
+  if(player.upgrades[10])player.treesMoney=player.treesMoney.mul(2);
+  player.treesPerSec=gain;
+  if(gain.gt(softs[0])){gain=gain.sub(softs[0]).pow(0.7).floor().add(softs[0]);}
+  for(let i=0;i<softs.length;i++) document.getElementById("soft"+(i+1)+"Start").innerHTML=softs[i];
   return gain;
 }
 function tick(){
     let moneyGain=player.trees.mul(player.treesMoney.mul(3));
-    player.trees=player.trees.add(getGain().div(f));
+    player.trees=player.trees.add(upgEffect().div(f));
     player.money=player.money.add(moneyGain.mul(player.autoMoney).div(f));
     fixUpgradesColor();
     updateDisplay();
@@ -170,15 +192,21 @@ function sellTrees(){
     player.trees=N(0);
 }
 function makeWood(){
-    let woodGain=player.trees.mul(N(0.0001).mul(player.treesMoney));
+    let woodGain=player.trees.mul(N(0.0003).mul(player.treesMoney));
     player.wood=player.wood.add(woodGain);
     player.trees=N(0);
 }
 function updateDisplay(){
     let rains=document.getElementsByClassName('rain');
     for(let i=0;i<rains.length;i++)rains[i].style="color:"+getUndulatingColor();
-    setIdInnerHtml("treesDisplay","你有"+format(player.trees)+"棵树");
-    setIdInnerHtml("treesPerSecDisplay","(+"+format(getGain())+"/s)");
+    for(let i=0;i<softs.length;i++){
+        let e=document.getElementById("soft"+(i+1))
+        if(player.treesPerSec.gt(softs[i]))e.style.display="block";
+        else e.style.display="none";
+    }
+    setIdInnerHtml("treesDisplay",format(player.trees));
+    setIdInnerHtml("treesPerSecDisplay",format(upgEffect()));
+    setIdInnerHtml("treesPerSecDisplayNS",format(player.treesPerSec));
     setIdInnerHtml("moneyDisplay",format(player.money));
     setIdInnerHtml("moneyGetDisplay",format(player.trees.mul(player.treesMoney.mul(3))));
     setIdInnerHtml("woodDisplay",format(player.wood));

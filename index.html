@@ -10,8 +10,9 @@
     <div>
       <span id="notify"></span>
       <div id="news"><span id="newsText"></span></div><br>
-      <div><span class="rain" id="treesDisplay">你有0棵树</span></div>
-      <div><span id="treesPerSecDisplay">(+0/s)</span></div>
+      <div><span class="rain">你有<span id="treesDisplay">0</span>棵树</span></div>
+      <div><span>(+<span id="treesPerSecDisplay">0</span>/s)</span></div>
+      <div><span>如果没有软上限:(+<span id="treesPerSecDisplayNS">0</span>/s)</span></div>
     </div>
     <!--选单-->
     <div class="line"></div>
@@ -74,6 +75,15 @@
       <button id="upgrade8" class="up" onclick="buy(8);showText(8)">
         8
       </button>
+      <button id="upgrade9" class="up" onclick="buy(9);showText(9)">
+        9
+      </button>
+      <button id="upgrade10" class="up" onclick="buy(10);showText(10)">
+        10
+      </button>
+      <button id="upgrade11" class="up" onclick="buy(11);showText(11)">
+        11
+      </button>
     </div>
     
     <div id="page3" style="display: none;">
@@ -86,7 +96,9 @@
       <span>开发者工具</span><br>
       <button class="btn" onclick="save();location.reload()">重载</button>
     </div>
-      
+    <!--软上限-->
+    <div class="line"></div>
+    <span id="soft1">由于你的种树速度><span id="soft1Start"></span>/s, 树营养不足。floor(超出部分^0.7)</span>
   </body>
   <script src="js/format-expantanum.js"></script>
   <script src="js/ExpantaNum.js"></script>
