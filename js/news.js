@@ -1,4 +1,4 @@
-let texts=[
+let texts = [
     {
         text: `你好，这是这个游戏的一个新闻，这也成为了我的一个滚动新闻！`
     },
@@ -7,17 +7,17 @@ let texts=[
     },
     {
         get text() {
-            return `你有${(1/textslength*100).toFixed(2)}%的概率看到这条新闻`
-          }
+            return `你有${(1 / textslength * 100).toFixed(2)}%的概率看到这条新闻`
+        }
     },
     {
-        text: `你觉得${BigInt(2)**BigInt(1024)}是无限吗？`
+        text: `你觉得${BigInt(2) ** BigInt(1024)}是无限吗？`
     },
     {
         text: `你觉得1.79F308是无限吗？`
     },
-    {   
-        get text(){
+    {
+        get text() {
             return `根据AI智能分析，你有${format(player.trees)}棵树。`
         }
     },
@@ -25,7 +25,7 @@ let texts=[
         text: `|0'''''1'''''2'''''3'''''4|一把尺子`
     },
     {
-        text: `|0'''''1'''''2'''''3'''''3'''''3|一把尺子但<span class="soft">(受硬上限限制)</span>` 
+        text: `|0'''''1'''''2'''''3'''''3'''''3|一把尺子但<span class="soft">(受硬上限限制)</span>`
     },
     {
         text: `1+1=${Math.SQRT2}`
@@ -65,7 +65,7 @@ let texts=[
     }
 ]
 let textslength = texts.length;
-function news(){
+function news() {
     let rand = Math.floor(Math.random() * textslength)
     let e = document.getElementById("newsText")
     let msg = texts[rand].text;
@@ -80,7 +80,7 @@ function news(){
     e.style.transition = 'transform ' + transformDuration + 's linear';
     e.style.transform = 'translateX(-' + (textWidth) + 'px)';
     e.addEventListener('transitionend', onNewsEnd)
-  }
+}
 var onNewsEnd = () => {
     let e = document.getElementById("newsText")
     e.removeEventListener('transitionend', onNewsEnd)
