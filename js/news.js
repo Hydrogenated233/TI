@@ -62,6 +62,9 @@ let texts = [
     },
     {
         text: `这条新闻是由第一新闻维度生成的，第一新闻维度是由第二新闻维度生成的...，当你有1.79e308条新闻时，你可以获得一个无限新闻。`
+    },
+    {
+        text: `获得一个无限新闻之后你会解锁新闻挑战，每完成一个挑战会加速你生成新闻的速度和解锁一个自动器，当你把自动无限器升到满级后，就可以打破无限。<button onclick="window.location.href='https://g1tyx.github.io/antimatter-dimensions/new/'" class="btn">点我玩这个游戏</button>`
     }
 ]
 let textslength = texts.length;

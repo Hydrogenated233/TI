@@ -37,10 +37,19 @@ function deepCopyUnfrozenArray(arr) {
     return copy;
 }
 deepFreezeArray(softs);
-
+for (let i = 0; i < document.getElementsByClassName('up').length; i++) {
+    let e = document.getElementsByClassName('up')[i];
+    e.addEventListener(
+        "mouseover",
+        (event) => {
+            showText(i + 1);
+        },
+        false,
+    );
+}
 let nowLookAt = "page1";
 //升级效果
-const upgradeEffect = [
+var upgradeEffect = [
     [N(100), "$"],
     [N(100), "$"],
     [N(500), "$"],
@@ -48,7 +57,7 @@ const upgradeEffect = [
     [N(5000), "$"],
     [N(10000), "$"],
     [N(10), "木板"],
-    [N(30), "木板"],
+    [N(30), "木板", N(0)],
     [N(50), "木板"],
     [N(80), "木板"],
     [N(110), "木板"],
@@ -175,25 +184,26 @@ function N(x) {
 function showText(id) {
     upgLookingAt = id;
     let effectTexts = [
-        "洒水机<br>*1.5<br><span id='upgrade1Cost'></span>",
-        "员工1<br>*3<br><span id='upgrade2Cost'></span>",
-        "基因改良<br>*5<br><span id='upgrade3Cost'></span>",
-        "机器种植<br>*10<br><span id='upgrade4Cost'></span>",
-        "机器收割<br>*5<br><span id='upgrade5Cost'></span>",
-        "合同<br>每秒获得10%$<br><span id='upgrade6Cost'></span>",
-        "加强木<br>树价值*2<br><span id='upgrade7Cost'></span>",
-        "加强机器<br>*1+|ln(木板)|<br>*" + "<span id='up8Effect'>" + "</span>" + "<br><span id='upgrade8Cost'></span>",
-        "肥料<br>软上限1 延迟500<br>" + "<span id='upgrade9Cost'></span>",
-        "员工2<br>*6<br>" + "<span id='upgrade10Cost'></span>",
-        "大树<br>树价值*2<br>" + "<span id='upgrade11Cost'></span>",
-        "金坷垃<br>软上限1 延迟1000<br>" + "<span id='upgrade12Cost'></span>",
-        "锯<br>每秒获得1%木板<br>" + "<span id='upgrade13Cost'></span>",
-        "更好的肥料<br>软上限1-> ^0.72<br>" + "<span id='upgrade14Cost'></span>",
+        ["洒水机", "<br>*1.5"],
+        ["员工1", "<br>*3"],
+        ["基因改良", "<br>*5"],
+        ["机器种植", "<br>*10"],
+        ["机器收割", "<br>*5"],
+        ["合同", "<br>每秒获得10%$"],
+        ["加强木", "<br>树价值*2"],
+        ["加强机器", "<br>*1+|ln(木板)|"],
+        ["肥料", "<br>软上限1 延迟500"],
+        ["员工2", "<br>*6"],
+        ["大树", "<br>树价值*2"],
+        ["金坷垃", "<br>软上限1 延迟1000"],
+        ["锯", "<br>每秒获得1%木板"],
+        ["更好的肥料", "<br>软上限1-> ^0.72"],
     ]
     let text = document.getElementById("page" + JSON.stringify(id < 7 ? 1 : 2) + "Text");
     text.display = "block";
-    text.innerHTML = effectTexts[id - 1];
-    document.getElementById("upgrade" + id + "Cost").innerHTML = format(upgradeEffect[id - 1][0]) + upgradeEffect[id - 1][1];
+    let mainT = id == 0 ? "" : `<span class="skyB">[升级${id}]${effectTexts[id - 1][0]}</span>${effectTexts[id - 1][1]}<br>${format(upgradeEffect[id - 1][0]) + upgradeEffect[id - 1][1]}`;
+    let eff = upgradeEffect[id - 1][2] != undefined ? `<br><span class="green">当前：*<span id="upg${id}Effect">${upgradeEffect[id - 1][2]}</span>` : "";
+    text.innerHTML = mainT + eff;
 }
 //购买升级
 function buy(id) {
@@ -211,7 +221,7 @@ function buy(id) {
     }
 }
 //升级效果
-function upgEffect() {
+function getGain() {
     let gain = N(1);
     let softsCal = deepCopyUnfrozenArray(softs);
     player.treesValue = N(1);
@@ -222,7 +232,8 @@ function upgEffect() {
     if (player.upgrades[4]) gain = gain.mul(5);
     if (player.upgrades[5]) player.passiveMoney = 0.1;
     if (player.upgrades[6]) player.treesValue = player.treesValue.mul(2);
-    if (player.upgrades[7]) gain = gain.mul(player.wood.ln().abs().add(1));
+    upgradeEffect[7][2] = player.wood.ln().abs().add(1);
+    if (player.upgrades[7]) gain = gain.mul(upgradeEffect[7][2]);
     if (player.upgrades[8]) softsCal[0][0] = softsCal[0][0].add(500);
     if (player.upgrades[9]) gain = gain.mul(6);
     if (player.upgrades[10]) player.treesValue = player.treesValue.mul(2);
@@ -249,7 +260,7 @@ function upgEffect() {
 function tick() {
     let moneyGain = player.trees.mul(player.treesValue.mul(3));
     let woodGain = player.trees.mul(N(0.0003).mul(player.treesValue));
-    player.trees = player.trees.add(upgEffect().div(f));
+    player.trees = player.trees.add(getGain().div(f));
     player.money = player.money.add(moneyGain.mul(player.passiveMoney).div(f));
     player.wood = player.wood.add(woodGain.mul(player.passiveWood).div(f));
     fixUpgradesColor();
@@ -272,15 +283,15 @@ function makeWood() {
 //更新显示
 function updateDisplay() {
     let rains = document.getElementsByClassName('rain');
+    if (upgLookingAt != 0 && upgradeEffect[upgLookingAt - 1][2] != undefined) document.getElementById(`upg${upgLookingAt}Effect`).innerHTML = format(upgradeEffect[upgLookingAt - 1][2]);
     for (let i = 0; i < rains.length; i++)rains[i].style = "color:" + getUndulatingColor();
     setIdInnerHtml("treesDisplay", format(player.trees));
-    setIdInnerHtml("treesPerSecDisplay", format(upgEffect()));
+    setIdInnerHtml("treesPerSecDisplay", format(getGain()));
     setIdInnerHtml("treesPerSecDisplayNS", format(player.treesPerSec));
     setIdInnerHtml("moneyDisplay", format(player.money));
     setIdInnerHtml("moneyGetDisplay", format(player.trees.mul(player.treesValue.mul(3))));
     setIdInnerHtml("woodDisplay", format(player.wood));
     setIdInnerHtml("woodGetDisplay", format(player.trees.mul(N(0.0001).mul(player.treesValue))));
-    if (upgLookingAt == 8) setIdInnerHtml("up8Effect", format(player.wood.gt(0) ? player.wood.ln().add(1) : 1))
 }
 
 

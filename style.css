@@ -47,6 +47,7 @@ html {
     background: #333;
     color: white;
     display: inline-block;
+    position: sticky;
 }
 .up:hover {
     background: #555;
@@ -59,15 +60,6 @@ html {
     text-decoration: none;
     border: 1px solid #777;
     background: #333;
-    color: white;
-    display: inline-block;
-}
-.upText {
-    cursor: pointer;
-    font-size: 18px;
-    max-width: 250px;
-    padding: 7px 15px;
-    text-decoration: none;
     color: white;
     display: inline-block;
 }
@@ -120,4 +112,17 @@ html {
 }
 #news{
     white-space: nowrap;
+}
+.upText {
+    cursor: pointer;
+    box-sizing:border-box;
+    text-decoration: none;
+    color: white;
+    display: inline-block;
+}
+.skyB{
+    color: skyblue;
+}
+.green{
+    color: green;
 }
