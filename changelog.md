@@ -1,4 +1,9 @@
 ## 本游戏使用[Expantanum.js](https://github.com/Naruyoko/ExpantaNum.js)处理大数字，[letter-notation-format](https://github.com/cloudytheconqueror/letter-notation-format)格式化大数字，[pako.js](https://github.com/nodeca/pako)处理存档。
+### dev-2024-10-13
+> - 悬浮显示完工
+> - 添加统计页面
+> - 添加三个升级
+> - 挑战将会在5小时候更新(真的五小时)
 ### dev3-2024-10-12
 > - 悬浮显示已完成
 > - 修复了一个新闻

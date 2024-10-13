@@ -46,6 +46,13 @@ for (let i = 0; i < document.getElementsByClassName('up').length; i++) {
         },
         false,
     );
+    e.addEventListener(
+        "mouseout",
+        (event) => {
+            showText(0);
+        },
+        false,
+    );
 }
 let nowLookAt = "page1";
 //升级效果
@@ -64,6 +71,9 @@ var upgradeEffect = [
     [N(300), "木板"],
     [N(500), "木板"],
     [N(1000), "木板"],
+    [N(3000), "木板"],
+    [N(7000), "木板"],
+    [N(10000), "木板"],
 ]
 //初始化
 let tmp = [];
@@ -72,6 +82,7 @@ for (let i = 0; i < upgradeEffect.length; i++) {
 }
 let player = {
     trees: N(0),
+    treesT: N(0),
     treesValue: N(1),
     treesPerSec: N(1),
     money: N(0),
@@ -100,6 +111,7 @@ function hardReset1(a) {
         }
         player = {
             trees: N(0),
+            treesT: N(0),
             treesValue: N(1),
             treesPerSec: N(1),
             money: N(0),
@@ -198,12 +210,19 @@ function showText(id) {
         ["金坷垃", "<br>软上限1 延迟1000"],
         ["锯", "<br>每秒获得1%木板"],
         ["更好的肥料", "<br>软上限1-> ^0.72"],
+        ["沃土", "<br>软上限1-> ^0.74"],
+        ["大棚", "<br>*2"],
+        ["竞争", "<br>解锁挑战"],
     ]
-    let text = document.getElementById("page" + JSON.stringify(id < 7 ? 1 : 2) + "Text");
-    text.display = "block";
-    let mainT = id == 0 ? "" : `<span class="skyB">[升级${id}]${effectTexts[id - 1][0]}</span>${effectTexts[id - 1][1]}<br>${format(upgradeEffect[id - 1][0]) + upgradeEffect[id - 1][1]}`;
-    let eff = upgradeEffect[id - 1][2] != undefined ? `<br><span class="green">当前：*<span id="upg${id}Effect">${upgradeEffect[id - 1][2]}</span>` : "";
-    text.innerHTML = mainT + eff;
+    if (id != 0) {
+        let text = document.getElementById("page" + JSON.stringify(id < 7 ? 1 : 2) + "Text");
+        text.display = "block";
+        let mainT = `<span class="skyB">[升级${id}]${effectTexts[id - 1][0]}</span>${effectTexts[id - 1][1]}<br>${format(upgradeEffect[id - 1][0]) + upgradeEffect[id - 1][1]}`;
+        let eff = upgradeEffect[id - 1][2] != undefined ? `<br><span class="green">当前：*<span id="upg${id}Effect">${upgradeEffect[id - 1][2]}</span>` : "";
+        text.innerHTML = mainT + eff;
+    } else for (let i = 1; i <= 2; i++)document.getElementById("page" + i + "Text").innerHTML = '';
+
+
 }
 //购买升级
 function buy(id) {
@@ -240,6 +259,9 @@ function getGain() {
     if (player.upgrades[11]) softsCal[0][0] = softsCal[0][0].add(1000);
     if (player.upgrades[12]) player.passiveWood = 0.01;
     if (player.upgrades[13]) softsCal[0][1] = N(0.72);
+    if (player.upgrades[14]) softsCal[0][1] = N(0.74);
+    if (player.upgrades[15]) gain = gain.mul(2);
+    document.getElementById('p3').style.display = player.upgrades[16] ? "inline-block" : "none";
     player.treesPerSec = gain;
     for (let i = 0; i < softsCal.length; i++) {
         let e = document.getElementById("soft" + (i + 1))
@@ -261,6 +283,7 @@ function tick() {
     let moneyGain = player.trees.mul(player.treesValue.mul(3));
     let woodGain = player.trees.mul(N(0.0003).mul(player.treesValue));
     player.trees = player.trees.add(getGain().div(f));
+    player.treesT = player.treesT.add(getGain().div(f));
     player.money = player.money.add(moneyGain.mul(player.passiveMoney).div(f));
     player.wood = player.wood.add(woodGain.mul(player.passiveWood).div(f));
     fixUpgradesColor();
@@ -282,16 +305,20 @@ function makeWood() {
 }
 //更新显示
 function updateDisplay() {
+    let woodGain = player.trees.mul(N(0.0003).mul(player.treesValue));
+    let moneyGain = player.trees.mul(player.treesValue.mul(3));
     let rains = document.getElementsByClassName('rain');
     if (upgLookingAt != 0 && upgradeEffect[upgLookingAt - 1][2] != undefined) document.getElementById(`upg${upgLookingAt}Effect`).innerHTML = format(upgradeEffect[upgLookingAt - 1][2]);
     for (let i = 0; i < rains.length; i++)rains[i].style = "color:" + getUndulatingColor();
     setIdInnerHtml("treesDisplay", format(player.trees));
-    setIdInnerHtml("treesPerSecDisplay", format(getGain()));
-    setIdInnerHtml("treesPerSecDisplayNS", format(player.treesPerSec));
+    setIdInnerHtml("treesTDisplay", format(player.treesT));
+    setIdInnerHtml("treesVDisplay", getTVolume(player.trees));
+    setIdInnerHtml("treesPerSecDisplay", formatGain(player.trees,getGain()));
+    setIdInnerHtml("treesPerSecDisplayNS", formatGain(player.trees,player.treesPerSec));
     setIdInnerHtml("moneyDisplay", format(player.money));
-    setIdInnerHtml("moneyGetDisplay", format(player.trees.mul(player.treesValue.mul(3))));
+    setIdInnerHtml("moneyGetDisplay", format(moneyGain));
     setIdInnerHtml("woodDisplay", format(player.wood));
-    setIdInnerHtml("woodGetDisplay", format(player.trees.mul(N(0.0001).mul(player.treesValue))));
+    setIdInnerHtml("woodGetDisplay", format(woodGain));
 }
 
 

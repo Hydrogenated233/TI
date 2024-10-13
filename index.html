@@ -16,10 +16,12 @@
     </div>
     <!--选单-->
     <div class="line"></div>
-    <button class="btn" onclick="switchTo(1)">主页</button>
-    <button class="btn" onclick="switchTo(2)">木板</button>
-    <button class="btn" onclick="switchTo(3)">设置</button>
-    <button class="btn" onclick="switchTo(4)">关于</button>
+    <button class="btn" onclick="switchTo(1)" id="p1">主页</button>
+    <button class="btn" onclick="switchTo(2)" id="p2">木板</button>
+    <button class="btn" onclick="switchTo(3)" id="p3">挑战</button>
+    <button class="btn" onclick="switchTo(4)" id="p4">设置</button>
+    <button class="btn" onclick="switchTo(5)" id="p5">关于</button>
+    <button class="btn" onclick="switchTo(6)" id="p6">统计</button>
     <div class="line"></div>
     <div id="page1">
       <!--按钮-->
@@ -36,24 +38,24 @@
       <div class="line"></div>
       <div>
         <span>你有<span id="moneyDisplay"></span>$</span><br>
-        <span class="upText" id="page1Text"></span>
+        <div class="upText"><span id="page1Text"></span></div>
         <div class="line"></div>
-        <button id="upgrade1" class="up" onclick="buy(1);showText(1)">
+        <button id="upgrade1" class="up" onclick="buy(1)">
           1
         </button>
-        <button id="upgrade2" class="up" onclick="buy(2);showText(2)">
+        <button id="upgrade2" class="up" onclick="buy(2)">
           2
         </button>
-        <button id="upgrade3" class="up" onclick="buy(3);showText(3)">
+        <button id="upgrade3" class="up" onclick="buy(3)">
           3
         </button>
-        <button id="upgrade4" class="up" onclick="buy(4);showText(4)">
+        <button id="upgrade4" class="up" onclick="buy(4)">
           4
         </button>
-        <button id="upgrade5" class="up" onclick="buy(5);showText(5)">
+        <button id="upgrade5" class="up" onclick="buy(5)">
           5
         </button>
-        <button id="upgrade6" class="up" onclick="buy(6);showText(6)">
+        <button id="upgrade6" class="up" onclick="buy(6)">
           6
         </button>
       </div>
@@ -68,35 +70,48 @@
       </button>
       <div class="line"></div>
       <span>你有<span id="woodDisplay"></span>木板</span><br>
-      <span class="upText" id="page2Text"></span>
+      <div class="upText"><span id="page2Text"></span></div>
       <div class="line"></div>
-      <button id="upgrade7" class="up" onclick="buy(7);showText(7)">
+      <button id="upgrade7" class="up" onclick="buy(7)">
         7
       </button>
-      <button id="upgrade8" class="up" onclick="buy(8);showText(8)">
+      <button id="upgrade8" class="up" onclick="buy(8)">
         8
       </button>
-      <button id="upgrade9" class="up" onclick="buy(9);showText(9)">
+      <button id="upgrade9" class="up" onclick="buy(9)">
         9
       </button>
-      <button id="upgrade10" class="up" onclick="buy(10);showText(10)">
+      <button id="upgrade10" class="up" onclick="buy(10)">
         10
       </button>
-      <button id="upgrade11" class="up" onclick="buy(11);showText(11)">
+      <button id="upgrade11" class="up" onclick="buy(11)">
         11
       </button>
-      <button id="upgrade12" class="up" onclick="buy(12);showText(12)">
+      <button id="upgrade12" class="up" onclick="buy(12)">
         12
       </button>
-      <button id="upgrade13" class="up" onclick="buy(13);showText(13)">
+      <button id="upgrade13" class="up" onclick="buy(13)">
         13
       </button>
-      <button id="upgrade14" class="up" onclick="buy(14);showText(14)">
+      <button id="upgrade14" class="up" onclick="buy(14)">
         14
       </button>
+      <button id="upgrade15" class="up" onclick="buy(15);">
+        15
+      </button>
+      <button id="upgrade16" class="up" onclick="buy(16)">
+        16
+      </button>
+      <button id="upgrade17" class="up" onclick="buy(17)">
+        17
+      </button>
+    </div>
+    <div id="page3" style="display: none;">
+      五小时更新<br>
+      <span>C1<br>^0.5</span><br><button>进入</button>
     </div>
     
-    <div id="page3" style="display: none;">
+    <div id="page4" style="display: none;">
       <button class="btn" onclick="hardReset()">硬重置</button>
       <button class="btn" onclick="save()">保存游戏</button>
       <button class="btn" onclick="load()">加载游戏</button>
@@ -104,7 +119,7 @@
       <button class="btn" onclick="export_copy()">导出至粘贴板</button>
       <button class="btn" onclick="save();location.reload()">重载</button>
     </div>
-    <div id="page4" style="display: none;">
+    <div id="page5" style="display: none;">
       支持所有序数增量吧吧友，你可以点击链接来游玩吧友们自制的增量游戏：<br/>
       <a class="btn" href="https://dlsdl.github.io/wind_spirit_creation/" target="_blank">风灵作成</a>
       <a class="btn" href="https://seanxlx2011.github.io/" target="_blank">数据增量重制版</a>
@@ -122,8 +137,11 @@
       <a class="btn" href="https://rg3072.github.io/anti-softcap-tree/111/" target="_blank">反软上限树</a>
       <br/>
       <a class="btn" href="https://hypcos.github.io/too-many-layers/" target="_blank">太多层级</a>
-      <br/>
-                
+      <br/>         
+    </div>
+    <div id="page6" style="display: none;">
+      <span>你总共种了<span id="treesTDisplay"></span>棵树</span><br>
+      <span id="treesVDisplay"></span>
     </div>
     <!--软上限-->
     <div class="line"></div>
@@ -132,6 +150,7 @@
   <script src="js/format-expantanum.js"></script>
   <script src="js/ExpantaNum.js"></script>
   <script src="js/pako.js"></script>
+  <script src="js/formats.js"></script>
   <script src="js/save.js"></script>
   <script src="js/main.js"></script>
   <script src="js/news.js"></script>
