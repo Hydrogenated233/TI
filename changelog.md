@@ -1,4 +1,7 @@
 ## 本游戏使用[Expantanum.js](https://github.com/Naruyoko/ExpantaNum.js)处理大数字，[letter-notation-format](https://github.com/cloudytheconqueror/letter-notation-format)格式化大数字，[pako.js](https://github.com/nodeca/pako)处理存档。
+### dev2-2024-10-13
+> - 添加C1(慎入，没平衡)
+> - 你就说是不是五小时吧
 ### dev-2024-10-13
 > - 悬浮显示完工
 > - 添加统计页面

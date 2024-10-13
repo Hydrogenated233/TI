@@ -3,7 +3,7 @@ var notify = document.getElementById('notify');
 let upgLookingAt = 0;
 hideNotify();
 const f = 30;
-//软上限制
+//软上限
 const softs = [
     [N(5000), N(0.7), 'pow']
 ];
@@ -89,7 +89,9 @@ let player = {
     upgrades: tmp,
     passiveMoney: 0,
     passiveWood: 0,
-    wood: N(0)
+    wood: N(0),
+    chaIn: 0,
+    chas: [0]
 };
 //彩色
 function getUndulatingColor(period = Math.sqrt(760)) {
@@ -118,9 +120,11 @@ function hardReset1(a) {
             upgrades: tmp,
             passiveMoney: 0,
             passiveWood: 0,
-            wood: N(0)
+            wood: N(0),
+            chaIn: 0,
+            chas: [0]
         };
-    }
+    };
     save();
 }
 //硬重置
@@ -216,7 +220,7 @@ function showText(id) {
     ]
     if (id != 0) {
         let text = document.getElementById("page" + JSON.stringify(id < 7 ? 1 : 2) + "Text");
-        text.display = "block";
+        text.style.display = "block";
         let mainT = `<span class="skyB">[升级${id}]${effectTexts[id - 1][0]}</span>${effectTexts[id - 1][1]}<br>${format(upgradeEffect[id - 1][0]) + upgradeEffect[id - 1][1]}`;
         let eff = upgradeEffect[id - 1][2] != undefined ? `<br><span class="green">当前：*<span id="upg${id}Effect">${upgradeEffect[id - 1][2]}</span>` : "";
         text.innerHTML = mainT + eff;
@@ -242,6 +246,7 @@ function buy(id) {
 //升级效果
 function getGain() {
     let gain = N(1);
+    player.passiveMoney = 0;player.passiveWood = 0;
     let softsCal = deepCopyUnfrozenArray(softs);
     player.treesValue = N(1);
     if (player.upgrades[0]) gain = gain.mul(1.5);
@@ -261,7 +266,10 @@ function getGain() {
     if (player.upgrades[13]) softsCal[0][1] = N(0.72);
     if (player.upgrades[14]) softsCal[0][1] = N(0.74);
     if (player.upgrades[15]) gain = gain.mul(2);
+
     document.getElementById('p3').style.display = player.upgrades[16] ? "inline-block" : "none";
+    if (player.chas[0]) softsCal[0][1] = N(0.78);
+    if (player.chaIn == 1) gain = gain.pow(0.85);
     player.treesPerSec = gain;
     for (let i = 0; i < softsCal.length; i++) {
         let e = document.getElementById("soft" + (i + 1))
@@ -313,12 +321,13 @@ function updateDisplay() {
     setIdInnerHtml("treesDisplay", format(player.trees));
     setIdInnerHtml("treesTDisplay", format(player.treesT));
     setIdInnerHtml("treesVDisplay", getTVolume(player.trees));
-    setIdInnerHtml("treesPerSecDisplay", formatGain(player.trees,getGain()));
-    setIdInnerHtml("treesPerSecDisplayNS", formatGain(player.trees,player.treesPerSec));
+    setIdInnerHtml("treesPerSecDisplay", formatGain(player.trees, getGain()));
+    setIdInnerHtml("treesPerSecDisplayNS", formatGain(player.trees, player.treesPerSec));
     setIdInnerHtml("moneyDisplay", format(player.money));
     setIdInnerHtml("moneyGetDisplay", format(moneyGain));
     setIdInnerHtml("woodDisplay", format(player.wood));
     setIdInnerHtml("woodGetDisplay", format(woodGain));
+    setIdInnerHtml("chaDisplay", player.chaIn==0 ? "你未进入任何挑战" : "你现在在挑战"+player.chaIn+"内");
 }
 
 

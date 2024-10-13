@@ -40,10 +40,10 @@ function getTVolume(x) {
     ]
     for (let prefix of prefixes) {
         if (x.gte(prefix.value * meter_cubed)) {
-            return `如果你的每棵树占据一个普朗克单位，你的树数足以${prefix.verb}${x.div(prefix.value * meter_cubed).format()}个${prefix.name}`
+            return `如果你的每棵树占据一个普朗克单位，你的树足以${prefix.verb}${x.div(prefix.value * meter_cubed).format()}个${prefix.name}`
         }
     }
-    return `如果你的每棵树占据一个普朗克单位，你的树数足以占据${formatWhole(x)}个普朗克单位`
+    return `如果你的每棵树占据一个普朗克单位，你的树足以占据${formatWhole(x)}个普朗克单位`
 }
 class formatTime {
     constructor(miliseconds) {

@@ -10,6 +10,7 @@
     <div>
       <span id="notify"></span>
       <div id="news"><span id="newsText"></span></div><br>
+      <span style="font-size: 24px;" id="chaDisplay"></span><br>
       <div><span class="rain">你有<span id="treesDisplay">0</span>棵树</span></div>
       <div><span>(+<span id="treesPerSecDisplay">0</span>/s)</span></div>
       <div><span>如果没有软上限:(+<span id="treesPerSecDisplayNS">0</span>/s)</span></div>
@@ -86,7 +87,7 @@
       </button>
       <button id="upgrade11" class="up" onclick="buy(11)">
         11
-      </button>
+      </button><br>
       <button id="upgrade12" class="up" onclick="buy(12)">
         12
       </button>
@@ -101,14 +102,19 @@
       </button>
       <button id="upgrade16" class="up" onclick="buy(16)">
         16
-      </button>
+      </button><br>
       <button id="upgrade17" class="up" onclick="buy(17)">
         17
       </button>
     </div>
     <div id="page3" style="display: none;">
       五小时更新<br>
-      <span>C1<br>^0.5</span><br><button>进入</button>
+      <div class="btn">
+        <span>C1<br>^0.85</span><br>
+        <span>目标:50,000树</span><br>
+        <span>奖励:软上线1 -> ^0.78</span><br>
+        <button class="btn" onclick="if(player.inCha==0)enterCha(1);else exitCha();">进入/退出</button>
+      </div>
     </div>
     
     <div id="page4" style="display: none;">
@@ -153,5 +159,6 @@
   <script src="js/formats.js"></script>
   <script src="js/save.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/cha.js"></script>
   <script src="js/news.js"></script>
 </html>
