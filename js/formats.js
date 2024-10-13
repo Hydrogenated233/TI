@@ -43,7 +43,7 @@ function getTVolume(x) {
             return `如果你的每棵树占据一个普朗克单位，你的树数足以${prefix.verb}${x.div(prefix.value * meter_cubed).format()}个${prefix.name}`
         }
     }
-    return `如果你的每个点数占据一个普朗克单位，你的点数足以占据${formatWhole(x)}个普朗克单位`
+    return `如果你的每棵树占据一个普朗克单位，你的树数足以占据${formatWhole(x)}个普朗克单位`
 }
 class formatTime {
     constructor(miliseconds) {
