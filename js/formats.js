@@ -1,8 +1,8 @@
 function getTVolume(x) {
     const meter_cubed = 2.3687253991903575e104
     if (x.gte("ee9")) return "大神啊！你的点数已经可以制造1个多元宇宙了！"
-    if (x.gte("1e785")) return `如果你每秒写3个数字，那么把你的点数写下来需要${formatTime.fromSeconds(x.log10().floor().add(1).div(3))}`
-    if (x.gte(Number.MAX_VALUE)) return `如果你的每个点数占据一个普朗克单位，你的点数足以制造${x.div(Number.MAX_VALUE).format()}个无限`
+    if (x.gte("1e785")) return `如果你每秒写3个数字，那么把你的树数写下来需要${formatTime.fromSeconds(x.log10().floor().add(1).div(3))}`
+    if (x.gte(Number.MAX_VALUE)) return `如果你的每棵树占据一个普朗克单位，你的树数足以制造${x.div(Number.MAX_VALUE).format()}个无限`
     const prefixes = [
         { value: 1e113, name: "维度", verb: "制造" },
         { value: 3.4e80, name: "可观测宇宙", verb: "制造" },
@@ -40,7 +40,7 @@ function getTVolume(x) {
     ]
     for (let prefix of prefixes) {
         if (x.gte(prefix.value * meter_cubed)) {
-            return `如果你的每个点数占据一个普朗克单位，你的点数足以${prefix.verb}${x.div(prefix.value * meter_cubed).format()}个${prefix.name}`
+            return `如果你的每棵树占据一个普朗克单位，你的树数足以${prefix.verb}${x.div(prefix.value * meter_cubed).format()}个${prefix.name}`
         }
     }
     return `如果你的每个点数占据一个普朗克单位，你的点数足以占据${formatWhole(x)}个普朗克单位`
