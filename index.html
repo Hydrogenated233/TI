@@ -1,164 +1,167 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>植树增量</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <!--上方文字-->
+
+<head>
+  <meta charset="utf-8">
+  <title>植树增量</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!--上方文字-->
+  <div>
+    <span id="notify"></span>
+    <div id="news"><span id="newsText"></span></div><br>
+    <span style="font-size: 24px;" id="chaDisplay"></span><br>
+    <div><span class="rain">你有<span id="treesDisplay">0</span>棵树</span></div>
+    <div><span>(+<span id="treesPerSecDisplay">0</span>/s)</span></div>
+    <div><span>如果没有软上限:(+<span id="treesPerSecDisplayNS">0</span>/s)</span></div>
+  </div>
+  <!--选单-->
+  <div class="line"></div>
+  <button class="btn" onclick="switchTo(1)" id="p1">主页</button>
+  <button class="btn" onclick="switchTo(2)" id="p2">木板</button>
+  <button class="btn" onclick="switchTo(3)" id="p3">挑战</button>
+  <button class="btn" onclick="switchTo(4)" id="p4">设置</button>
+  <button class="btn" onclick="switchTo(5)" id="p5">关于</button>
+  <button class="btn" onclick="switchTo(6)" id="p6">统计</button>
+  <div class="line"></div>
+  <div id="page1">
+    <!--按钮-->
     <div>
-      <span id="notify"></span>
-      <div id="news"><span id="newsText"></span></div><br>
-      <span style="font-size: 24px;" id="chaDisplay"></span><br>
-      <div><span class="rain">你有<span id="treesDisplay">0</span>棵树</span></div>
-      <div><span>(+<span id="treesPerSecDisplay">0</span>/s)</span></div>
-      <div><span>如果没有软上限:(+<span id="treesPerSecDisplayNS">0</span>/s)</span></div>
-    </div>
-    <!--选单-->
-    <div class="line"></div>
-    <button class="btn" onclick="switchTo(1)" id="p1">主页</button>
-    <button class="btn" onclick="switchTo(2)" id="p2">木板</button>
-    <button class="btn" onclick="switchTo(3)" id="p3">挑战</button>
-    <button class="btn" onclick="switchTo(4)" id="p4">设置</button>
-    <button class="btn" onclick="switchTo(5)" id="p5">关于</button>
-    <button class="btn" onclick="switchTo(6)" id="p6">统计</button>
-    <div class="line"></div>
-    <div id="page1">
-      <!--按钮-->
-      <div>
-        <button onclick="sellTrees()" class="btn">
-          <span>把你的树卖掉</span>
-          <br>
-          <span>+</span>
-          <span id="moneyGetDisplay"></span>
-          <span>$</span>
-        </button>
-      </div>
-      <!--升级-->
-      <div class="line"></div>
-      <div>
-        <span>你有<span id="moneyDisplay"></span>$</span><br>
-        <div class="upText"><span id="page1Text"></span></div>
-        <div class="line"></div>
-        <button id="upgrade1" class="up" onclick="buy(1)">
-          1
-        </button>
-        <button id="upgrade2" class="up" onclick="buy(2)">
-          2
-        </button>
-        <button id="upgrade3" class="up" onclick="buy(3)">
-          3
-        </button>
-        <button id="upgrade4" class="up" onclick="buy(4)">
-          4
-        </button>
-        <button id="upgrade5" class="up" onclick="buy(5)">
-          5
-        </button>
-        <button id="upgrade6" class="up" onclick="buy(6)">
-          6
-        </button>
-      </div>
-    </div>
-    <div id="page2" style="display: none;">
-      <button onclick="makeWood()" class="btn">
-        <span>把你的树加工</span>
+      <button onclick="sellTrees()" class="btn">
+        <span>把你的树卖掉</span>
         <br>
         <span>+</span>
-        <span id="woodGetDisplay"></span>
-        <span>木板</span>
-      </button>
-      <div class="line"></div>
-      <span>你有<span id="woodDisplay"></span>木板</span><br>
-      <div class="upText"><span id="page2Text"></span></div>
-      <div class="line"></div>
-      <button id="upgrade7" class="up" onclick="buy(7)">
-        7
-      </button>
-      <button id="upgrade8" class="up" onclick="buy(8)">
-        8
-      </button>
-      <button id="upgrade9" class="up" onclick="buy(9)">
-        9
-      </button>
-      <button id="upgrade10" class="up" onclick="buy(10)">
-        10
-      </button>
-      <button id="upgrade11" class="up" onclick="buy(11)">
-        11
-      </button><br>
-      <button id="upgrade12" class="up" onclick="buy(12)">
-        12
-      </button>
-      <button id="upgrade13" class="up" onclick="buy(13)">
-        13
-      </button>
-      <button id="upgrade14" class="up" onclick="buy(14)">
-        14
-      </button>
-      <button id="upgrade15" class="up" onclick="buy(15);">
-        15
-      </button>
-      <button id="upgrade16" class="up" onclick="buy(16)">
-        16
-      </button><br>
-      <button id="upgrade17" class="up" onclick="buy(17)">
-        17
+        <span id="moneyGetDisplay"></span>
+        <span>$</span>
       </button>
     </div>
-    <div id="page3" style="display: none;">
-      五小时更新<br>
-      <div class="btn">
-        <span>C1<br>^0.85</span><br>
-        <span>目标:50,000树</span><br>
-        <span>奖励:软上线1 -> ^0.78</span><br>
-        <button class="btn" onclick="if(player.inCha==0)enterCha(1);else exitCha();">进入/退出</button>
-      </div>
-    </div>
-    
-    <div id="page4" style="display: none;">
-      <button class="btn" onclick="hardReset()">硬重置</button>
-      <button class="btn" onclick="save()">保存游戏</button>
-      <button class="btn" onclick="load()">加载游戏</button>
-      <button class="btn" onclick="loadText()">导入存档</button>
-      <button class="btn" onclick="export_copy()">导出至粘贴板</button>
-      <button class="btn" onclick="save();location.reload()">重载</button>
-    </div>
-    <div id="page5" style="display: none;">
-      支持所有序数增量吧吧友，你可以点击链接来游玩吧友们自制的增量游戏：<br/>
-      <a class="btn" href="https://dlsdl.github.io/wind_spirit_creation/" target="_blank">风灵作成</a>
-      <a class="btn" href="https://seanxlx2011.github.io/" target="_blank">数据增量重制版</a>
-      <a class="btn" href="https://0i00000000a7.github.io/points-incremental-rewritten/" target="_blank">点数增量重制版</a>
-      <a class="btn" href="https://aster131072.github.io/incremental_evolution/" target="_blank">增量进化</a>
-      <br/>
-      <a class="btn" href="https://veryrrdefine.github.io/MdVI-rewritten/" target="_blank">多维体积增量</a>
-      <a class="btn" href="https://qqqe308.github.io/The-Rhythm-Game-Tree/" target="_blank">音乐游戏树</a>
-      <a class="btn" href="https://qqqe308.github.io/Anti-Anti-Softcap-Tree/111" target="_blank">反反软上限树</a>
-      <a class="btn" href="https://a262537412640768744.github.io/homework-incremental/main.html" target="_blank">作业增量</a>
-      <br/>
-      <a class="btn" href="https://goldenapple125.github.io/RBN/" target="_blank">大数之路</a>
-      <a class="btn" href="https://veryrrdefine.github.io/The-BYD-Tree/" target="_blank">BYD树</a>
-      <a class="btn" href="https://a262537412640768744.github.io/EnergyReset/" target="_blank">能源重置</a>
-      <a class="btn" href="https://rg3072.github.io/anti-softcap-tree/111/" target="_blank">反软上限树</a>
-      <br/>
-      <a class="btn" href="https://hypcos.github.io/too-many-layers/" target="_blank">太多层级</a>
-      <br/>         
-    </div>
-    <div id="page6" style="display: none;">
-      <span>你总共种了<span id="treesTDisplay"></span>棵树</span><br>
-      <span id="treesVDisplay"></span>
-    </div>
-    <!--软上限-->
+    <!--升级-->
     <div class="line"></div>
-    <span id="soft1">由于你的种树速度><span id="soft1Start"></span>/s, 树营养不足。^<span id="soft1Effect"></span></span>
-  </body>
-  <script src="js/format-expantanum.js"></script>
-  <script src="js/ExpantaNum.js"></script>
-  <script src="js/pako.js"></script>
-  <script src="js/formats.js"></script>
-  <script src="js/save.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/cha.js"></script>
-  <script src="js/news.js"></script>
+    <div>
+      <span>你有<span id="moneyDisplay"></span>$</span><br>
+      <div class="upText"><span id="page1Text"></span></div>
+      <div class="line"></div>
+      <button id="upgrade1" class="up" onclick="buy(1)">
+        1
+      </button>
+      <button id="upgrade2" class="up" onclick="buy(2)">
+        2
+      </button>
+      <button id="upgrade3" class="up" onclick="buy(3)">
+        3
+      </button>
+      <button id="upgrade4" class="up" onclick="buy(4)">
+        4
+      </button>
+      <button id="upgrade5" class="up" onclick="buy(5)">
+        5
+      </button>
+      <button id="upgrade6" class="up" onclick="buy(6)">
+        6
+      </button>
+    </div>
+  </div>
+  <div id="page2" style="display: none;">
+    <button onclick="makeWood()" class="btn">
+      <span>把你的树加工</span>
+      <br>
+      <span>+</span>
+      <span id="woodGetDisplay"></span>
+      <span>木板</span>
+    </button>
+    <div class="line"></div>
+    <span>你有<span id="woodDisplay"></span>木板</span><br>
+    <div class="upText"><span id="page2Text"></span></div>
+    <div class="line"></div>
+    <button id="upgrade7" class="up" onclick="buy(7)">
+      7
+    </button>
+    <button id="upgrade8" class="up" onclick="buy(8)">
+      8
+    </button>
+    <button id="upgrade9" class="up" onclick="buy(9)">
+      9
+    </button>
+    <button id="upgrade10" class="up" onclick="buy(10)">
+      10
+    </button>
+    <button id="upgrade11" class="up" onclick="buy(11)">
+      11
+    </button><br>
+    <button id="upgrade12" class="up" onclick="buy(12)">
+      12
+    </button>
+    <button id="upgrade13" class="up" onclick="buy(13)">
+      13
+    </button>
+    <button id="upgrade14" class="up" onclick="buy(14)">
+      14
+    </button>
+    <button id="upgrade15" class="up" onclick="buy(15);">
+      15
+    </button>
+    <button id="upgrade16" class="up" onclick="buy(16)">
+      16
+    </button><br>
+    <button id="upgrade17" class="up" onclick="buy(17)">
+      17
+    </button>
+  </div>
+  <div id="page3" style="display: none;">
+    五小时更新<br>
+    <div class="btn">
+      <span>C1<br>^0.85</span><br>
+      <span>目标:50,000树</span><br>
+      <span>奖励:软上线1 -> ^0.78</span><br>
+      <button class="btn" onclick="if(player.chaIn==0)enterCha(1);else exitCha();">进入/退出</button>
+    </div>
+  </div>
+
+  <div id="page4" style="display: none;">
+    <button class="btn" onclick="hardReset()">硬重置</button>
+    <button class="btn" onclick="save()">保存游戏</button>
+    <button class="btn" onclick="load()">加载游戏</button>
+    <button class="btn" onclick="loadText()">导入存档</button>
+    <button class="btn" onclick="export_copy()">导出至粘贴板</button>
+    <button class="btn" onclick="save();location.reload()">重载</button>
+  </div>
+  <div id="page5" style="display: none;">
+    支持所有序数增量吧吧友，你可以点击链接来游玩吧友们自制的增量游戏：<br />
+    <a class="btn" href="https://dlsdl.github.io/wind_spirit_creation/" target="_blank">风灵作成</a>
+    <a class="btn" href="https://seanxlx2011.github.io/" target="_blank">数据增量重制版</a>
+    <a class="btn" href="https://0i00000000a7.github.io/points-incremental-rewritten/" target="_blank">点数增量重制版</a>
+    <a class="btn" href="https://aster131072.github.io/incremental_evolution/" target="_blank">增量进化</a>
+    <br />
+    <a class="btn" href="https://veryrrdefine.github.io/MdVI-rewritten/" target="_blank">多维体积增量</a>
+    <a class="btn" href="https://qqqe308.github.io/The-Rhythm-Game-Tree/" target="_blank">音乐游戏树</a>
+    <a class="btn" href="https://qqqe308.github.io/Anti-Anti-Softcap-Tree/111" target="_blank">反反软上限树</a>
+    <a class="btn" href="https://a262537412640768744.github.io/homework-incremental/main.html" target="_blank">作业增量</a>
+    <br />
+    <a class="btn" href="https://goldenapple125.github.io/RBN/" target="_blank">大数之路</a>
+    <a class="btn" href="https://veryrrdefine.github.io/The-BYD-Tree/" target="_blank">BYD树</a>
+    <a class="btn" href="https://a262537412640768744.github.io/EnergyReset/" target="_blank">能源重置</a>
+    <a class="btn" href="https://rg3072.github.io/anti-softcap-tree/111/" target="_blank">反软上限树</a>
+    <br />
+    <a class="btn" href="https://hypcos.github.io/too-many-layers/" target="_blank">太多层级</a>
+    <br />
+  </div>
+  <div id="page6" style="display: none;">
+    <span>你总共种了<span id="treesTDisplay"></span>棵树</span><br>
+    <span id="treesVDisplay"></span>
+  </div>
+  <!--软上限-->
+  <div class="line"></div>
+  <span id="soft1">由于你的种树速度><span id="soft1Start"></span>/s, 树营养不足。^<span id="soft1Effect"></span></span>
+</body>
+<script src="js/format-expantanum.js"></script>
+<script src="js/ExpantaNum.js"></script>
+<script src="js/pako.js"></script>
+<script src="js/formats.js"></script>
+<script src="js/save.js"></script>
+<script src="js/main.js"></script>
+<script src="js/cha.js"></script>
+<script src="js/news.js"></script>
+
 </html>

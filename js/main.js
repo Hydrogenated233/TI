@@ -246,7 +246,7 @@ function buy(id) {
 //升级效果
 function getGain() {
     let gain = N(1);
-    player.passiveMoney = 0;player.passiveWood = 0;
+    player.passiveMoney = 0; player.passiveWood = 0;
     let softsCal = deepCopyUnfrozenArray(softs);
     player.treesValue = N(1);
     if (player.upgrades[0]) gain = gain.mul(1.5);
@@ -327,7 +327,7 @@ function updateDisplay() {
     setIdInnerHtml("moneyGetDisplay", format(moneyGain));
     setIdInnerHtml("woodDisplay", format(player.wood));
     setIdInnerHtml("woodGetDisplay", format(woodGain));
-    setIdInnerHtml("chaDisplay", player.chaIn==0 ? "你未进入任何挑战" : "你现在在挑战"+player.chaIn+"内");
+    setIdInnerHtml("chaDisplay", player.chaIn == 0 ? "你未进入任何挑战" : "你现在在挑战" + player.chaIn + "内");
 }
 
 

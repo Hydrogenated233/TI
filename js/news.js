@@ -43,9 +43,6 @@ let texts = [
         text: `Giving people fish is not as good as giving people the first fish dimension is not as good as giving people the second fish dimension……——6左爷6`
     },
     {
-        text: `授人以鱼，不如授人以渔，不如授人以氵渔，不如授人以氵氵渔，不如授人以氵氵氵渔，不如授人以氵氵氵氵渔，不如授人以氵氵氵氵氵渔，不如授人以氵氵氵氵氵氵渔，不如授人以氵氵氵氵氵氵氵渔，不如授人以鱼度提升，不如授人以鱼度献祭，不如授人以鱼物质星系，不如授人以无限，不如授人以挑战，不如授人以无限挑战，不如授人以永恒，不如受人以永恒挑战，不如授人以时间膨胀。——<sup>01000000a7</sup>`
-    },
-    {
         text: `我有个问题，站在楼顶往楼下扔一块反物质算不算高空抛物？————seanxlx`
     },
     {
@@ -65,6 +62,14 @@ let texts = [
     },
     {
         text: `获得一个无限新闻之后你会解锁新闻挑战，每完成一个挑战会加速你生成新闻的速度和解锁一个自动器，当你把自动无限器升到满级后，就可以打破无限。<button onclick="window.location.href='https://g1tyx.github.io/antimatter-dimensions/new/'" class="btn">点我玩这个游戏</button>`
+    },
+    {
+        text: `在打破无限之后，你会解锁很多无限挑战，这些会比普通挑战难度更高，但你会获得更多加成。你还可以使用无限新闻去升级升级，然后你可以解锁无限维度，无限维度与普通维度类似，但生成的是无限力量，它可以加成普通维度。...在获得1.79e308个无限新闻后，你可以获得一个永恒新闻。<button onclick="window.location.href='https://g1tyx.github.io/antimatter-dimensions/new/'" class="btn">点我玩这个游戏</button>`
+    },
+    {
+        get text(){
+            return`|0'''''1'''''2'''''2.1'''''2.2'''''2.3'''''2.4'''''2.5'''''2.51........''''3-<sup>1</sup>/<sub>e1000</sub>..........''''3-<sup>1</sup><sub>F1000</sub>.............''''3-<sup>1</sup>/<sub>K1000</sub>..........''''3-<sup>1</sup>/<sub>TREE(3)</sub>..............''''3-<sup>1</sup>/<sub>SSCG(3)</sub>....''''3-<sup>1</sup>/<sub>ω</sub>''''3|这把尺子<span class="soft">(受二重软上限限制)</span>`
+        } 
     }
 ]
 let textslength = texts.length;
