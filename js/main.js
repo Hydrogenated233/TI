@@ -205,14 +205,14 @@ function showText(id) {
         ["基因改良", "<br>*5"],
         ["机器种植", "<br>*10"],
         ["机器收割", "<br>*5"],
-        ["合同", "<br>每秒获得10%$"],
+        ["*合同*", "<br>每秒获得10%$"],
         ["加强木", "<br>树价值*2"],
-        ["加强机器", "<br>*1+|ln(木板)|"],
+        ["加强机器", "<br>*1+|ln(木板+1)|"],
         ["肥料", "<br>软上限1 延迟500"],
         ["员工2", "<br>*6"],
         ["大树", "<br>树价值*2"],
         ["金坷垃", "<br>软上限1 延迟1000"],
-        ["锯", "<br>每秒获得1%木板"],
+        ["*锯*", "<br>每秒获得1%木板"],
         ["更好的肥料", "<br>软上限1-> ^0.72"],
         ["沃土", "<br>软上限1-> ^0.74"],
         ["大棚", "<br>*2"],
@@ -243,6 +243,7 @@ function buy(id) {
         }
     }
 }
+var gainNCS;
 //升级效果
 function getGain() {
     let gain = N(1);
@@ -256,7 +257,7 @@ function getGain() {
     if (player.upgrades[4]) gain = gain.mul(5);
     if (player.upgrades[5]) player.passiveMoney = 0.1;
     if (player.upgrades[6]) player.treesValue = player.treesValue.mul(2);
-    upgradeEffect[7][2] = player.wood.ln().abs().add(1);
+    upgradeEffect[7][2] = player.wood.add(1).ln().abs().add(1);
     if (player.upgrades[7]) gain = gain.mul(upgradeEffect[7][2]);
     if (player.upgrades[8]) softsCal[0][0] = softsCal[0][0].add(500);
     if (player.upgrades[9]) gain = gain.mul(6);
@@ -269,6 +270,7 @@ function getGain() {
 
     document.getElementById('p3').style.display = player.upgrades[16] ? "inline-block" : "none";
     if (player.chas[0]) softsCal[0][1] = N(0.78);
+    gainNCS = gain;
     if (player.chaIn == 1) gain = gain.pow(0.85);
     player.treesPerSec = gain;
     for (let i = 0; i < softsCal.length; i++) {
@@ -318,11 +320,13 @@ function updateDisplay() {
     let rains = document.getElementsByClassName('rain');
     if (upgLookingAt != 0 && upgradeEffect[upgLookingAt - 1][2] != undefined) document.getElementById(`upg${upgLookingAt}Effect`).innerHTML = format(upgradeEffect[upgLookingAt - 1][2]);
     for (let i = 0; i < rains.length; i++)rains[i].style = "color:" + getUndulatingColor();
+    for (let i = 0; i < player.chas.length; i++)document.getElementById(`cha${i+1}`).classList.add(player.chas[i]==1?"chaF":(player.chaIn&&player.trees.gte(ChaGoals[i])?"chaCanF":""));
     setIdInnerHtml("treesDisplay", format(player.trees));
     setIdInnerHtml("treesTDisplay", format(player.treesT));
     setIdInnerHtml("treesVDisplay", getTVolume(player.trees));
     setIdInnerHtml("treesPerSecDisplay", formatGain(player.trees, getGain()));
     setIdInnerHtml("treesPerSecDisplayNS", formatGain(player.trees, player.treesPerSec));
+    setIdInnerHtml("treesPerSecDisplayNCS", formatGain(player.trees, gainNCS));
     setIdInnerHtml("moneyDisplay", format(player.money));
     setIdInnerHtml("moneyGetDisplay", format(moneyGain));
     setIdInnerHtml("woodDisplay", format(player.wood));

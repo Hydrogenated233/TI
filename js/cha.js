@@ -1,7 +1,8 @@
+const permanentUpg=[6,13];
 function resetUpgAToB(a, b) {
-    for (let i = a - 1; i < b; i++)player.upgrades[i] = 0;
+    for (let i = a - 1; i < b; i++)if(!permanentUpg.includes(i+1))player.upgrades[i] = 0;
 }
-//进入挑战
+    //进入挑战
 function resetResources(a) {
     if (a == 1) { player.trees = N(0); return; }
     if (a == 2) { player.money = N(0); return; }
