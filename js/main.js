@@ -320,7 +320,7 @@ function updateDisplay() {
     let rains = document.getElementsByClassName('rain');
     if (upgLookingAt != 0 && upgradeEffect[upgLookingAt - 1][2] != undefined) document.getElementById(`upg${upgLookingAt}Effect`).innerHTML = format(upgradeEffect[upgLookingAt - 1][2]);
     for (let i = 0; i < rains.length; i++)rains[i].style = "color:" + getUndulatingColor();
-    for (let i = 0; i < player.chas.length; i++)if(player.chas[i]==1||player.chaIn==i+1&&player.trees.gte(ChaGoals[i]))document.getElementById(`cha${i+1}`).classList.add(player.chas[i]==1?"chaF":(player.chaIn==i+1&&player.trees.gte(ChaGoals[i])?"chaCanF":""));
+    for (let i = 0; i < player.chas.length; i++) if(player.chas[i]==1||player.chaIn==i+1&&player.trees.gte(ChaGoals[i]))document.getElementById(`cha${i+1}`).classList.add(player.chas[i]==1?"chaF":(player.chaIn==i+1&&player.trees.gte(ChaGoals[i])?"chaCanF":""));
     setIdInnerHtml("treesDisplay", format(player.trees));
     setIdInnerHtml("treesTDisplay", format(player.treesT));
     setIdInnerHtml("treesVDisplay", getTVolume(player.trees));
