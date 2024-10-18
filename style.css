@@ -54,10 +54,12 @@ html {
     color: white;
     display: inline-block;
     position: sticky;
+    margin: 0px 1px 0px 1px;
 }
 
 .up:hover {
     background: #555;
+    transform: scale(1.2);
 }
 
 .btn {
@@ -147,9 +149,11 @@ html {
 .green {
     color: green;
 }
-.chaCanF {
-    background-color: yellow;
+.chaCanF,.chaCanF:hover {
+    background-color: rgb(255, 255, 0);
+    color: black;
 }
-.chaF {
+.chaF,.chaF:hover {
     background-color: green;
+    color: white;
 }

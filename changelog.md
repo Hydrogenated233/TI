@@ -1,4 +1,8 @@
 ## 本游戏使用[Expantanum.js](https://github.com/Naruyoko/ExpantaNum.js)处理大数字，[letter-notation-format](https://github.com/cloudytheconqueror/letter-notation-format)格式化大数字，[pako.js](https://github.com/nodeca/pako)处理存档。
+### dev-2024-10-18
+> - 添加6个升级
+> - 优化升级显示
+> - 优化样式
 ### v0.0.1
 > - 添加挑战可完成时和挑战已完成时的样式
 > - 添加永久升级

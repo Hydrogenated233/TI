@@ -37,23 +37,6 @@ function deepCopyUnfrozenArray(arr) {
     return copy;
 }
 deepFreezeArray(softs);
-for (let i = 0; i < document.getElementsByClassName('up').length; i++) {
-    let e = document.getElementsByClassName('up')[i];
-    e.addEventListener(
-        "mouseover",
-        (event) => {
-            showText(i + 1);
-        },
-        false,
-    );
-    e.addEventListener(
-        "mouseout",
-        (event) => {
-            showText(0);
-        },
-        false,
-    );
-}
 let nowLookAt = "page1";
 //升级效果
 var upgradeEffect = [
@@ -72,8 +55,14 @@ var upgradeEffect = [
     [N(500), "木板"],
     [N(1000), "木板"],
     [N(3000), "木板"],
+    [N(5000), "木板"],
     [N(7000), "木板"],
     [N(10000), "木板"],
+    [N(20000), "木板"],
+    [N(25000), "木板"],
+    [N(30000), "木板"],
+    [N(45000), "木板"],
+    [N(50000), "木板"],
 ]
 //初始化
 let tmp = [];
@@ -93,6 +82,44 @@ let player = {
     chaIn: 0,
     chas: [0]
 };
+let k=1;
+let lastPage='page1';
+for (let i = 1; i <= player.upgrades.length; i++){
+    // 创建一个新的 div 元素
+    let Div = document.getElementById('page'+JSON.stringify((i<=6)?1:2));
+    if(lastPage=='page'+JSON.stringify((i<=6)?1:2)&&i!=1){
+        k++;
+        console.log(k,i);
+    }else{
+        k=1;lastPage='page'+JSON.stringify((i<=6)?1:2);
+        console.log(k,i);
+    }
+    let e = document.createElement("button");
+    e.textContent = i;
+    e.classList.add("up");
+    e.id = "upgrade" + i;
+    e.addEventListener("click", function () {
+        buy(i);
+    });
+    e.addEventListener(
+        "mouseover",
+        (event) => {
+            showText(i);
+        },
+        false,
+    );
+    e.addEventListener(
+        "mouseout",
+        (event) => {
+            showText(0);
+        },
+        false,
+    );
+    Div.appendChild(e);
+    if (k % 5 === 0 && i !== player.upgrades.length) {
+        Div.appendChild(document.createElement("br"));
+    }
+}
 //彩色
 function getUndulatingColor(period = Math.sqrt(760)) {
     let t = new Date().getTime()
@@ -205,18 +232,28 @@ function showText(id) {
         ["基因改良", "<br>*5"],
         ["机器种植", "<br>*10"],
         ["机器收割", "<br>*5"],
+
         ["*合同*", "<br>每秒获得10%$"],
         ["加强木", "<br>树价值*2"],
         ["加强机器", "<br>*1+|ln(木板+1)|"],
         ["肥料", "<br>软上限1 延迟500"],
         ["员工2", "<br>*6"],
+
         ["大树", "<br>树价值*2"],
         ["金坷垃", "<br>软上限1 延迟1000"],
         ["*锯*", "<br>每秒获得1%木板"],
         ["更好的肥料", "<br>软上限1-> ^0.72"],
         ["沃土", "<br>软上限1-> ^0.74"],
+
         ["大棚", "<br>*2"],
         ["竞争", "<br>解锁挑战"],
+        ["认可", "<br>树价值*2"],
+        ["*好锯*", "<br>每秒获得5%木板"],
+        ["更多员工", "<br>*10"],
+
+        ["温控系统", "<br>软上限1-> ^0.8"],
+        ["全天候光照", "<br>*2"],
+        ["员工<sup>2</sup>", "<br>*15"],
     ]
     if (id != 0) {
         let text = document.getElementById("page" + JSON.stringify(id < 7 ? 1 : 2) + "Text");
@@ -267,9 +304,15 @@ function getGain() {
     if (player.upgrades[13]) softsCal[0][1] = N(0.72);
     if (player.upgrades[14]) softsCal[0][1] = N(0.74);
     if (player.upgrades[15]) gain = gain.mul(2);
+    if (player.upgrades[17]) player.treesValue = player.treesValue.mul(2);
+    if (player.upgrades[18]) player.passiveWood = 0.05;
+    if (player.upgrades[19]) gain = gain.mul(10);
+    if (player.upgrades[21]) gain = gain.mul(2);
+    if (player.upgrades[22]) gain = gain.mul(15);
 
     document.getElementById('p3').style.display = player.upgrades[16] ? "inline-block" : "none";
     if (player.chas[0]) softsCal[0][1] = N(0.78);
+    if (player.upgrades[20]) softsCal[0][1] = N(0.8);
     gainNCS = gain;
     if (player.chaIn == 1) gain = gain.pow(0.85);
     player.treesPerSec = gain;
