@@ -22,7 +22,7 @@ deepFreezeArray(ChaReset);
 function enterCha(n) {
     player.chaIn = n;
     resetUpgAToB(ChaReset[n - 1][0], player.upgrades.length);
-    resetResourcesUntil(ChaReset[n - 1][2]);
+    resetResourcesUntil(ChaReset[n - 1][1]);
 }
 function exitCha() {
     if (checkComplete()) { player.chas[player.chaIn - 1] = 1; }

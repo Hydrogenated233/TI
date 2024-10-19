@@ -5,7 +5,8 @@ hideNotify();
 const f = 30;
 //软上限
 const softs = [
-    [N(5000), N(0.7), 'pow']
+    [N(5000), N(0.7), 'pow'],
+    [N('1.5e10'), N(0.7), 'pow']
 ];
 //冻结数组
 function deepFreezeArray(arr) {
@@ -63,8 +64,12 @@ var upgradeEffect = [
     [N(30000), "木板"],
     [N(45000), "木板"],
     [N(50000), "木板"],
+    [N(80000), "木板"],
+    [N('2e6'), "木板"],
+    [N('2e7'), "木板"],
+    [N('e14'), "$", N(0)],
 ]
-//初始化
+//初始化2
 let tmp = [];
 for (let i = 0; i < upgradeEffect.length; i++) {
     tmp.push(0);
@@ -84,14 +89,16 @@ let player = {
 };
 let k=1;
 let lastPage='page1';
+function whichPageIn(n) {return JSON.stringify((upgradeEffect[n-1][1]=="$")?1:2);}
 for (let i = 1; i <= player.upgrades.length; i++){
     // 创建一个新的 div 元素
-    let Div = document.getElementById('page'+JSON.stringify((i<=6)?1:2));
-    if(lastPage=='page'+JSON.stringify((i<=6)?1:2)&&i!=1){
+    let p=whichPageIn(i)
+    let Div = document.getElementById('page'+p);
+    if(lastPage=='page'+p&&i!=1){
         k++;
         console.log(k,i);
     }else{
-        k=1;lastPage='page'+JSON.stringify((i<=6)?1:2);
+        k=1;lastPage='page'+p;
         console.log(k,i);
     }
     let e = document.createElement("button");
@@ -254,9 +261,14 @@ function showText(id) {
         ["温控系统", "<br>软上限1-> ^0.8"],
         ["全天候光照", "<br>*2"],
         ["员工<sup>2</sup>", "<br>*15"],
+        ["宣传部", "<br>树价值*5"],
+        ["校招", "<br>*20"],
+
+        ["员工<sup>员工</sup>", "<br>*30"],
+        ["上市", "<br>*1+|log(tree+1)|"],
     ]
     if (id != 0) {
-        let text = document.getElementById("page" + JSON.stringify(id < 7 ? 1 : 2) + "Text");
+        let text = document.getElementById("page" + whichPageIn(id) + "Text");
         text.style.display = "block";
         let mainT = `<span class="skyB">[升级${id}]${effectTexts[id - 1][0]}</span>${effectTexts[id - 1][1]}<br>${format(upgradeEffect[id - 1][0]) + upgradeEffect[id - 1][1]}`;
         let eff = upgradeEffect[id - 1][2] != undefined ? `<br><span class="green">当前：*<span id="upg${id}Effect">${upgradeEffect[id - 1][2]}</span>` : "";
@@ -309,22 +321,32 @@ function getGain() {
     if (player.upgrades[19]) gain = gain.mul(10);
     if (player.upgrades[21]) gain = gain.mul(2);
     if (player.upgrades[22]) gain = gain.mul(15);
+    if (player.upgrades[23]) player.treesValue=player.treesValue.mul(5);
+    if (player.upgrades[24]) gain = gain.mul(20);
+    if (player.upgrades[25]) gain = gain.mul(30);
+    upgradeEffect[26][2] = player.trees.add(1).log10().abs().add(1);
+    if (player.upgrades[26]) gain = gain.mul(upgradeEffect[26][2]);
 
     document.getElementById('p3').style.display = player.upgrades[16] ? "inline-block" : "none";
+    
     if (player.chas[0]) softsCal[0][1] = N(0.78);
     if (player.upgrades[20]) softsCal[0][1] = N(0.8);
+
     gainNCS = gain;
+
     if (player.chaIn == 1) gain = gain.pow(0.85);
+
     player.treesPerSec = gain;
+
     for (let i = 0; i < softsCal.length; i++) {
         let e = document.getElementById("soft" + (i + 1))
         if (player.treesPerSec.gt(softsCal[i][0])) e.style.display = "block";
         else e.style.display = "none";
         gain = gain.softcap(softsCal[i][0], softsCal[i][1], softsCal[i][2]);
         e = document.getElementById("soft" + (i + 1) + "Start");
-        e.innerHTML = softsCal[i][0];
+        e.innerHTML = format(softsCal[i][0]);
         e = document.getElementById("soft" + (i + 1) + "Effect");
-        e.innerHTML = softsCal[i][1];
+        e.innerHTML = format(softsCal[i][1]);
     }
     for (let i = 0; i < softsCal.length; i++) {
 
