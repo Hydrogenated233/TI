@@ -85,21 +85,22 @@ let player = {
     passiveWood: 0,
     wood: N(0),
     chaIn: 0,
-    chas: [0]
+    chas: [0],
+    totalTime: N(0),
 };
-let k=1;
-let lastPage='page1';
-function whichPageIn(n) {return JSON.stringify((upgradeEffect[n-1][1]=="$")?1:2);}
-for (let i = 1; i <= player.upgrades.length; i++){
+let k = 1;
+let lastPage = 'page1';
+function whichPageIn(n) { return JSON.stringify((upgradeEffect[n - 1][1] == "$") ? 1 : 2); }
+for (let i = 1; i <= player.upgrades.length; i++) {
     // 创建一个新的 div 元素
-    let p=whichPageIn(i)
-    let Div = document.getElementById('page'+p);
-    if(lastPage=='page'+p&&i!=1){
+    let p = whichPageIn(i)
+    let Div = document.getElementById('page' + p);
+    if (lastPage == 'page' + p && i != 1) {
         k++;
-        console.log(k,i);
-    }else{
-        k=1;lastPage='page'+p;
-        console.log(k,i);
+        console.log(k, i);
+    } else {
+        k = 1; lastPage = 'page' + p;
+        console.log(k, i);
     }
     let e = document.createElement("button");
     e.textContent = i;
@@ -156,7 +157,8 @@ function hardReset1(a) {
             passiveWood: 0,
             wood: N(0),
             chaIn: 0,
-            chas: [0]
+            chas: [0],
+            totalTime: N(0),
         };
     };
     save();
@@ -321,14 +323,14 @@ function getGain() {
     if (player.upgrades[19]) gain = gain.mul(10);
     if (player.upgrades[21]) gain = gain.mul(2);
     if (player.upgrades[22]) gain = gain.mul(15);
-    if (player.upgrades[23]) player.treesValue=player.treesValue.mul(5);
+    if (player.upgrades[23]) player.treesValue = player.treesValue.mul(5);
     if (player.upgrades[24]) gain = gain.mul(20);
     if (player.upgrades[25]) gain = gain.mul(30);
     upgradeEffect[26][2] = player.trees.add(1).log10().abs().add(1);
     if (player.upgrades[26]) gain = gain.mul(upgradeEffect[26][2]);
 
     document.getElementById('p3').style.display = player.upgrades[16] ? "inline-block" : "none";
-    
+
     if (player.chas[0]) softsCal[0][1] = N(0.78);
     if (player.upgrades[20]) softsCal[0][1] = N(0.8);
 
@@ -363,6 +365,7 @@ function tick() {
     player.wood = player.wood.add(woodGain.mul(player.passiveWood).div(f));
     fixUpgradesColor();
     updateDisplay();
+    player.totalTime = player.totalTime.add(1000 / f);
 }
 function setIdInnerHtml(id, text) {
     document.getElementById(id).innerHTML = text;
@@ -378,6 +381,22 @@ function makeWood() {
     player.wood = player.wood.add(woodGain);
     player.trees = N(0);
 }
+function calaNextUpgTime() {
+    let nextUpg = -1;
+    for (let i = 0; i < upgradeEffect.length; i++)if (player.upgrades[i] == 0) { nextUpg = i + 1; break; }
+    if (nextUpg == -1) return "已购买所有升级";
+    else {
+        let woodGain = player.trees.mul(N(0.0003).mul(player.treesValue));
+        let moneyGain = player.trees.mul(player.treesValue.mul(3));
+        let woodPerSec = player.treesPerSec.mul(N(0.0003).mul(player.treesValue));
+        let moneyPerSec = player.treesPerSec.mul(player.treesValue.mul(3));
+        let cost = upgradeEffect[nextUpg - 1][0];
+        let coin = upgradeEffect[nextUpg - 1][1];
+        let nowHave = coin=="$" ? player.money.add(moneyGain): player.wood.add(woodGain);
+        let time = (cost.sub(nowHave).div(coin=="$"?moneyPerSec:woodPerSec)).max(0);
+        return `下一个升级预计在${formatTime.fromSeconds(time)}后可购买`;
+    }
+}
 //更新显示
 function updateDisplay() {
     let woodGain = player.trees.mul(N(0.0003).mul(player.treesValue));
@@ -385,7 +404,7 @@ function updateDisplay() {
     let rains = document.getElementsByClassName('rain');
     if (upgLookingAt != 0 && upgradeEffect[upgLookingAt - 1][2] != undefined) document.getElementById(`upg${upgLookingAt}Effect`).innerHTML = format(upgradeEffect[upgLookingAt - 1][2]);
     for (let i = 0; i < rains.length; i++)rains[i].style = "color:" + getUndulatingColor();
-    for (let i = 0; i < player.chas.length; i++) if(player.chas[i]==1||player.chaIn==i+1&&player.trees.gte(ChaGoals[i]))document.getElementById(`cha${i+1}`).classList.add(player.chas[i]==1?"chaF":(player.chaIn==i+1&&player.trees.gte(ChaGoals[i])?"chaCanF":""));
+    for (let i = 0; i < player.chas.length; i++) if (player.chas[i] == 1 || player.chaIn == i + 1 && player.trees.gte(ChaGoals[i])) document.getElementById(`cha${i + 1}`).classList.add(player.chas[i] == 1 ? "chaF" : (player.chaIn == i + 1 && player.trees.gte(ChaGoals[i]) ? "chaCanF" : ""));
     setIdInnerHtml("treesDisplay", format(player.trees));
     setIdInnerHtml("treesTDisplay", format(player.treesT));
     setIdInnerHtml("treesVDisplay", getTVolume(player.trees));
@@ -396,6 +415,8 @@ function updateDisplay() {
     setIdInnerHtml("moneyGetDisplay", format(moneyGain));
     setIdInnerHtml("woodDisplay", format(player.wood));
     setIdInnerHtml("woodGetDisplay", format(woodGain));
+    setIdInnerHtml("nextUpgTimeDisplay", calaNextUpgTime());
+    setIdInnerHtml("totalTimeDisplay", formatTime.fromMilliseconds(player.totalTime));
     setIdInnerHtml("chaDisplay", player.chaIn == 0 ? "你未进入任何挑战" : "你现在在挑战" + player.chaIn + "内");
 }
 
