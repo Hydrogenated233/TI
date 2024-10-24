@@ -1,7 +1,12 @@
 ## 本游戏使用[Expantanum.js](https://github.com/Naruyoko/ExpantaNum.js)处理大数字，[letter-notation-format](https://github.com/cloudytheconqueror/letter-notation-format)格式化大数字，[pako.js](https://github.com/nodeca/pako)处理存档。
+### dev-2024-10-24
+> - 添加十二个升级
+> - 添加两条新闻
+> - 优化升级显示逻辑
+> - 更新一些没用的函数
 ### dev-2024-10-20
 > - 添加预测下一个升级所需时间(不准)
-> - 优化升级显示；逻辑
+> - 优化升级显示逻辑
 > - 优化样式
 ### dev-2024-10-19
 > - 添加四个升级

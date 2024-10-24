@@ -46,28 +46,47 @@ var upgradeEffect = [
     [N(500), "$"],
     [N(2500), "$"],
     [N(5000), "$"],
+
     [N(10000), "$"],
     [N(10), "木板"],
     [N(30), "木板", N(0)],
     [N(50), "木板"],
     [N(80), "木板"],
+
     [N(110), "木板"],
     [N(300), "木板"],
     [N(500), "木板"],
     [N(1000), "木板"],
     [N(3000), "木板"],
+
     [N(5000), "木板"],
     [N(7000), "木板"],
     [N(10000), "木板"],
     [N(20000), "木板"],
     [N(25000), "木板"],
+
     [N(30000), "木板"],
     [N(45000), "木板"],
     [N(50000), "木板"],
     [N(80000), "木板"],
     [N('2e6'), "木板"],
+
     [N('2e7'), "木板"],
     [N('e14'), "$", N(0)],
+    [N('2e8'), "木板"],
+    [N('2e9'), "木板"],
+    [N('2e15'), "$"],
+
+    [N('2e10'), "木板", N(0)],
+    [N('2e11'), "木板"],
+    [N('e16'), "$"],
+    [N('2e12'), "木板"],
+    [N('2e13'), "木板"],
+
+    [N('5e16'), "$"],
+    [N('2e14'), "木板"],
+    [N('2e15'), "木板"],
+    [N('2e21'), "$"],
 ]
 //初始化2
 let tmp = [];
@@ -88,20 +107,14 @@ let player = {
     chas: [0],
     totalTime: N(0),
 };
-let k = 1;
+let upgsInPages=[0,0];
 let lastPage = 'page1';
 function whichPageIn(n) { return JSON.stringify((upgradeEffect[n - 1][1] == "$") ? 1 : 2); }
 for (let i = 1; i <= player.upgrades.length; i++) {
     // 创建一个新的 div 元素
     let p = whichPageIn(i)
+    upgsInPages[p-1]++;
     let Div = document.getElementById('page' + p);
-    if (lastPage == 'page' + p && i != 1) {
-        k++;
-        console.log(k, i);
-    } else {
-        k = 1; lastPage = 'page' + p;
-        console.log(k, i);
-    }
     let e = document.createElement("button");
     e.textContent = i;
     e.classList.add("up");
@@ -124,7 +137,7 @@ for (let i = 1; i <= player.upgrades.length; i++) {
         false,
     );
     Div.appendChild(e);
-    if (k % 5 === 0 && i !== player.upgrades.length) {
+    if (upgsInPages[p-1] % 5 === 0 && i !== player.upgrades.length) {
         Div.appendChild(document.createElement("br"));
     }
 }
@@ -268,10 +281,23 @@ function showText(id) {
 
         ["员工<sup>员工</sup>", "<br>*30"],
         ["上市", "<br>*1+|log(tree+1)|"],
+        ["外星种植", "<br>*20"],
+        ["改造大气", "<br>*5"],
+        ["合理密植", "<br>*5"],
+
+        ["行星种植区", "<br>同upg27"],
+        ["改造星球", "<br>*10"],
+        ["改造光照", "<br>*15"],
+        ["*星球级工厂*", "<br>每秒获得100%$, 100%木板"],
+        ["辐射变异", "<br>*10"],
+
+        ["恒星系种植", "<br>*30"],
+        ["理论研究", "<br>*2"],
+        ["曲率航行", "<br>*10"],
+        ["AI控制种植", "<br>*15"],
     ]
     if (id != 0) {
         let text = document.getElementById("page" + whichPageIn(id) + "Text");
-        text.style.display = "block";
         let mainT = `<span class="skyB">[升级${id}]${effectTexts[id - 1][0]}</span>${effectTexts[id - 1][1]}<br>${format(upgradeEffect[id - 1][0]) + upgradeEffect[id - 1][1]}`;
         let eff = upgradeEffect[id - 1][2] != undefined ? `<br><span class="green">当前：*<span id="upg${id}Effect">${upgradeEffect[id - 1][2]}</span>` : "";
         text.innerHTML = mainT + eff;
@@ -328,6 +354,19 @@ function getGain() {
     if (player.upgrades[25]) gain = gain.mul(30);
     upgradeEffect[26][2] = player.trees.add(1).log10().abs().add(1);
     if (player.upgrades[26]) gain = gain.mul(upgradeEffect[26][2]);
+    if (player.upgrades[27]) gain = gain.mul(20);
+    if (player.upgrades[28]) gain = gain.mul(5);
+    if (player.upgrades[29]) gain = gain.mul(5);
+    upgradeEffect[30][2] = player.trees.add(1).log10().abs().add(1);
+    if (player.upgrades[30]) gain = gain.mul(upgradeEffect[30][2]);
+    if (player.upgrades[31]) gain = gain.mul(10);
+    if (player.upgrades[32]) gain = gain.mul(15);
+    if (player.upgrades[33]) {player.passiveMoney = 1; player.passiveWood = 1;}
+    if (player.upgrades[34]) gain = gain.mul(10);
+    if (player.upgrades[35]) gain = gain.mul(30);
+    if (player.upgrades[36]) gain = gain.mul(2);
+    if (player.upgrades[37]) gain = gain.mul(10);
+    if (player.upgrades[38]) gain = gain.mul(15);
 
     document.getElementById('p3').style.display = player.upgrades[16] ? "inline-block" : "none";
 

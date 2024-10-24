@@ -70,6 +70,12 @@ let texts = [
         get text(){
             return`|0'''''1'''''2'''''2.1'''''2.2'''''2.3'''''2.4'''''2.5'''''2.51........''''3-<sup>1</sup>/<sub>e1000</sub>..........''''3-<sup>1</sup>/<sub>F1000</sub>.............''''3-<sup>1</sup>/<sub>K1000</sub>..........''''3-<sup>1</sup>/<sub>TREE(3)</sub>..............''''3-<sup>1</sup>/<sub>SSCG(3)</sub>....''''3-<sup>1</sup>/<sub>ω</sub>''''3|这把尺子<span class="soft">(受二重软上限限制)</span>`
         } 
+    },
+    {
+        text: `<a style:"background-color:yellow;">要警惕黄色新闻</a>`
+    },
+    {
+        text: `<a onclick="player.trees=player.trees.add(1)">点一下加一棵树</a>`
     }
 ]
 let textslength = texts.length;

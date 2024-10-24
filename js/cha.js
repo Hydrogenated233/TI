@@ -1,4 +1,4 @@
-const permanentUpg=[6,13,19];
+const permanentUpg=[6,13,19,34];
 function resetUpgAToB(a, b) {
     for (let i = a - 1; i < b; i++)if(!permanentUpg.includes(i+1))player.upgrades[i] = 0;
 }
