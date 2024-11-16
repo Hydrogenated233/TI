@@ -12,7 +12,6 @@
     <span id="notify"></span>
     <div id="news"><span id="newsText"></span></div><br>
     <span class="big" id="chaDisplay"></span><br>
-    <div><span id="nextUpgTimeDisplay"></span></div>
     <div><span>**是永久升级</span></div>
     <div><span class="rain">你有<span class="big" id="treesDisplay"></span>棵树</span></div>
     <div><span>(+<span id="treesPerSecDisplay"></span>/s)</span></div>
@@ -24,6 +23,7 @@
   <button class="btn" onclick="switchTo(1)" id="p1">主页</button>
   <button class="btn" onclick="switchTo(2)" id="p2">木板</button>
   <button class="btn" onclick="switchTo(3)" id="p3">挑战</button>
+  <button class="btn tec" onclick="switchTo(7)" id="p7">科技</button>
   <button class="btn" onclick="switchTo(4)" id="p4">设置</button>
   <button class="btn" onclick="switchTo(5)" id="p5">关于</button>
   <button class="btn" onclick="switchTo(6)" id="p6">统计</button>
@@ -43,7 +43,7 @@
     <div class="line"></div>
     <div>
       <span>你有<span id="moneyDisplay"></span>$</span><br>
-      <div class="upText"><span id="page1Text"></span></div>
+      <span id="page1Text" class="upText"></span>
       <div class="line"></div>
     </div>
   </div>
@@ -57,11 +57,10 @@
     </button>
     <div class="line"></div>
     <span>你有<span id="woodDisplay"></span>木板</span><br>
-    <div class="upText"><span id="page2Text"></span></div>
+    <span id="page2Text" class="upText"></span>
     <div class="line"></div>
   </div>
   <div id="page3" style="display: none;">
-    五小时更新<br>
     <div class="btn" id="cha1">
       <span>C1<br>^0.85</span><br>
       <span>目标:50,000树</span><br>
@@ -103,11 +102,17 @@
     <span>你总共种了<span id="treesTDisplay"></span>棵树</span><br>
     <span id="treesVDisplay"></span>
   </div>
+  <div id="page7" style="display: none;">
+    在写了在写了，之前考试去了。
+  </div>
   <!--软上限-->
   <div class="line"></div>
   <span id="soft1">由于你的种树速度><span id="soft1Start"></span>/s, 树营养不足。^<span id="soft1Effect"></span></span>
   <span id="soft2">由于你的种树速度><span id="soft2Start"></span>/s, 树营养不足。^<span id="soft2Effect"></span></span>
-
+  <div class="line"></div>
+  <div class="u-container">
+    <div class="u-progress"></div>
+  </div>
 </body>
 <script src="js/format-expantanum.js"></script>
 <script src="js/ExpantaNum.js"></script>
