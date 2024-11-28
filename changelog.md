@@ -1,4 +1,10 @@
 ## 本游戏使用[Expantanum.js](https://github.com/Naruyoko/ExpantaNum.js)处理大数字，[letter-notation-format](https://github.com/cloudytheconqueror/letter-notation-format)格式化大数字，[pako.js](https://github.com/nodeca/pako)处理存档。
+### dev-2024-11-28
+> - 添加C2
+> - 把upg17改为永久升级
+> - 优化升级进度条
+> - 添加更多新闻
+> - 优化样式
 ### dev-2024-11-16
 > - 优化升级文本
 > - 升级进度条

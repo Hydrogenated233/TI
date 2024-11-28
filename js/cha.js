@@ -1,4 +1,4 @@
-const permanentUpg=[6,13,19,34];
+const permanentUpg=[6,13,17,19,34];
 function resetUpgAToB(a, b) {
     for (let i = a - 1; i < b; i++)if(!permanentUpg.includes(i+1))player.upgrades[i] = 0;
 }
@@ -12,9 +12,11 @@ function resetResourcesUntil(k) {
     for (let i = 1; i <= k; i++)resetResources(i);
 }
 var ChaReset = [
+    [1, 3],
     [1, 3]
 ]
 var ChaGoals = [
+    N(500000),
     N(50000)
 ]
 deepFreezeArray(ChaGoals);

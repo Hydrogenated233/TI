@@ -1,18 +1,18 @@
-:root {
-    --font: 'Courier New', 'Noto Sans SC', 'sans-serif';
-}
 * {
     touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     font-size: 18px;
     text-align: center;
     user-select: none;
+    font-family: 'Courier New', Courier, monospace;
 }
-html{
+
+html {
     background-color: black;
     color: white;
     user-select: none;
 }
+
 .line {
     width: 100%;
     border-bottom: solid 2px #222;
@@ -55,7 +55,8 @@ html{
     color: white;
     display: inline-block;
     position: sticky;
-    margin: 0px 1px 0px 1px;
+    margin-up: 10px;
+    transition: width .2s linear;
 }
 
 .up:hover {
@@ -73,6 +74,7 @@ html{
     background: #333;
     color: white;
     display: inline-block;
+    transition: width .2s linear;
 }
 
 .btn:hover {
@@ -150,35 +152,46 @@ html{
 .green {
     color: green;
 }
-.chaCanF,.chaCanF:hover {
+
+.chaCanF,
+.chaCanF:hover {
     background-color: rgb(255, 255, 0);
     color: black;
 }
-.chaF,.chaF:hover {
+
+.chaF,
+.chaF:hover {
     background-color: green;
     color: white;
 }
-.big{
+
+.big {
     font-size: 30px;
 }
-.tec{
+
+.tec {
     background-color: #aba459;
     color: black;
 }
-.tec:hover{
+
+.tec:hover {
     background-color: #e2d973;
 }
+
 .u-container {
-    width: 100%;
+    width: 99%;
     height: 25px;
-    border: 5px 0 0 5px solid #fff;
     background: #000;
     position: fixed;
+    bottom: 10px;
+    left: 1%;
+    right: 1%;
+    z-index: 9999;
 }
+
 .u-progress {
-    width: 50%;
+    width: 0%;
     height: inherit;
-    border: 5px 0 0 5px solid #fff;
     background: #0f0;
     transition: width .2s linear;
 }

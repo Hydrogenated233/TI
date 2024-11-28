@@ -92,10 +92,21 @@ let texts = [
         text: `"我们为什么要种这么多树？" "有人在产能量，有人在炼金，有人在写作业，不干点什么显得我们很呆啊。"———茶水间`
     },
     {
-        text: `为了防止无法计算一些可购买所需的成本，请进行每日训练。从a加到b，总k项。S=1/2 (a+b)*k`
+        text: `为了防止无法计算一些可购买所需的成本，请进行每日训练。从a到b的等差数列，总k项。S=1/2 (a+b)*k`
     },
     {
-        text: ``
+        text: `{{format(player.trees)}}                                其实我没装vue`
+    },
+    {
+         get text(){
+            let a=new Date();
+            let t=new Date(a);
+            t.setDate(t.getDate()+1);
+            return `您于${t.getFullYear()}/${t.getMonth()+1}/${t.getDate()} ${t.getHours()}:${t.getMinutes()}购买的“回到一天前”已生效。`
+         }
+    },
+    {
+        text: `本游戏的平衡非常好，不会出现第一个升级就要等半分钟这种事情。`
     }
 ]
 let textslength = texts.length;

@@ -104,7 +104,7 @@ let player = {
     passiveWood: 0,
     wood: N(0),
     chaIn: 0,
-    chas: [0],
+    chas: [0,0],
     totalTime: N(0),
 };
 let upgsInPages=[0,0];
@@ -170,7 +170,7 @@ function hardReset1(a) {
             passiveWood: 0,
             wood: N(0),
             chaIn: 0,
-            chas: [0],
+            chas: [0,0],
             totalTime: N(0),
         };
     };
@@ -268,7 +268,7 @@ function showText(id) {
         ["沃土", "<br>软上限1-> ^0.74"],
 
         ["大棚", "<br>*2"],
-        ["竞争", "<br>解锁挑战"],
+        ["*竞争*", "<br>解锁挑战"],
         ["认可", "<br>树价值*2"],
         ["*好锯*", "<br>每秒获得5%木板"],
         ["更多员工", "<br>*10"],
@@ -332,6 +332,7 @@ function getGain() {
     player.passiveMoney = 0; player.passiveWood = 0;
     let softsCal = deepCopyUnfrozenArray(softs);
     player.treesValue = N(1);
+    //设定升级效果
     if (player.upgrades[0]) gain = gain.mul(1.5);
     if (player.upgrades[1]) gain = gain.mul(3);
     if (player.upgrades[2]) gain = gain.mul(5);
@@ -374,13 +375,15 @@ function getGain() {
     if (player.upgrades[38]) gain = gain.mul(15);
 
     document.getElementById('p3').style.display = player.upgrades[16] ? "inline-block" : "none";
-
+    //设定软上限相关
     if (player.chas[0]) softsCal[0][1] = N(0.78);
+    if (player.chas[1]) softsCal[1][1] = N(0.8);
     if (player.upgrades[20]) softsCal[0][1] = N(0.8);
 
     gainNCS = gain;
-
+    //设定挑战效果
     if (player.chaIn == 1) gain = gain.pow(0.85);
+    if (player.chaIn == 2) gain = gain.pow(0.5);
 
     player.treesPerSec = gain;
 
@@ -393,9 +396,6 @@ function getGain() {
         e.innerHTML = format(softsCal[i][0]);
         e = document.getElementById("soft" + (i + 1) + "Effect");
         e.innerHTML = format(softsCal[i][1]);
-    }
-    for (let i = 0; i < softsCal.length; i++) {
-
     }
     return gain;
 }
@@ -428,13 +428,19 @@ function makeWood() {
 function calaNextUpgTime() {
     let nextUpg = -1;
     for (let i = 0; i < upgradeEffect.length; i++)if (player.upgrades[i] == 0) { nextUpg = i + 1; break; }
-    if (nextUpg == -1) return 100;
-    else {
-        let cost = upgradeEffect[nextUpg - 1][0];
-        let coin = upgradeEffect[nextUpg - 1][1];
-        let nowHave = coin=="$" ? player.money: player.wood;
-        return nowHave.div(cost).times(100).min(100);
+    if (nextUpg == -1){
+        document.getElementsByClassName("u-progress")[0].style.background=getUndulatingColor();
+        return 100;
+    }else{
+        document.getElementsByClassName("u-progress")[0].style.background=`#0f0`;
     }
+    let cost = upgradeEffect[nextUpg - 1][0];
+    let coin = upgradeEffect[nextUpg - 1][1];
+    let nowHave = coin=="$" ? player.money: player.wood;
+    let woodGain = player.trees.mul(N(0.0003).mul(player.treesValue));
+    let moneyGain = player.trees.mul(player.treesValue.mul(3));
+    nowHave = nowHave.add(coin=="$" ? moneyGain : woodGain);
+    return nowHave.div(cost).times(100).min(99);
 }
 //更新显示
 function updateDisplay() {

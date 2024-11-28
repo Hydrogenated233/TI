@@ -63,9 +63,15 @@
   <div id="page3" style="display: none;">
     <div class="btn" id="cha1">
       <span>C1<br>^0.85</span><br>
-      <span>目标:50,000树</span><br>
+      <span>目标:500,000树</span><br>
       <span>奖励:软上限1 -> ^0.78</span><br>
       <button class="btn" onclick="if(player.chaIn==0)enterCha(1);else exitCha();">进入/退出</button>
+    </div>
+    <div class="btn" id="cha2">
+      <span>C2<br>^0.5</span><br>
+      <span>目标:50,000树</span><br>
+      <span>奖励:软上限2 -> ^0.8</span><br>
+      <button class="btn" onclick="if(player.chaIn==0)enterCha(2);else exitCha();">进入/退出</button>
     </div>
   </div>
 
@@ -107,8 +113,8 @@
   </div>
   <!--软上限-->
   <div class="line"></div>
-  <span id="soft1">由于你的种树速度><span id="soft1Start"></span>/s, 树营养不足。^<span id="soft1Effect"></span></span>
-  <span id="soft2">由于你的种树速度><span id="soft2Start"></span>/s, 树营养不足。^<span id="soft2Effect"></span></span>
+    <span id="soft1">由于你的种树速度><span id="soft1Start"></span>/s, 树营养不足。^<span id="soft1Effect"></span></span>
+    <span id="soft2">由于你的种树速度><span id="soft2Start"></span>/s, 树营养不足。^<span id="soft2Effect"></span></span>
   <div class="line"></div>
   <div class="u-container">
     <div class="u-progress"></div>
